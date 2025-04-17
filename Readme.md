@@ -37,6 +37,7 @@ Profile 'terraform' created and activated
 Это надо проделывать до terraform validate и после изменения main.tf
 #по-умолчанию только для текущей платформы
 - `terraform init`
+
 #добавляем стандартную
 - `terraform providers lock -net-mirror=https://terraform-mirror.yandexcloud.net -platform=linux_amd64`
 - `terraform plan`
@@ -47,7 +48,6 @@ Profile 'terraform' created and activated
 => rm all dirs & caches
 
 #установка addon-ов не работает без публичного ip master ноды (из интерфейса работает)
-
 #module "addons" {
 
 #https://developer.hashicorp.com/terraform/cli/config/environment-variables
