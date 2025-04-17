@@ -147,16 +147,20 @@ data "kubectl_file_documents" "docs" {
 resource "kubectl_manifest" "cert-manager-crd" {
   for_each  = data.kubectl_file_documents.docs.manifests
   yaml_body = each.value
+  depends_on = [module.kube]
 }
 
 //example via terraform https://github.com/cert-manager/cert-manager/issues/7369
 resource "helm_release" "jetstack" {
-  name             = "cert-manager"
-  repository       = "https://charts.jetstack.io"
-  chart            = "cert-manager"
-  namespace        = "cert-manager"
-  version          = "v1.12.16"
-  depends_on       = [kubectl_manifest.cert-manager-crd]
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  namespace  = "cert-manager"
+  version    = "v1.12.16"
+  depends_on = [
+    kubectl_manifest.cert-manager-crd,
+    module.kube.node_groups
+  ]
   create_namespace = true
   wait             = true
   replace          = true
@@ -178,7 +182,7 @@ resource "helm_release" "rancher" {
   depends_on = [
     helm_release.jetstack
   ]
-  
+
   name             = "rancher"
   repository       = "https://releases.rancher.com/server-charts/stable"
   chart            = "rancher"
@@ -202,7 +206,7 @@ resource "helm_release" "rancher" {
     name  = "ingress.ingressClassName"
     value = "nginx"
   }
-  
+
   set {
     name  = "replicas"
     value = "-1"
