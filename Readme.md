@@ -24,7 +24,7 @@ key_algorithm: RSA_2048
 ```
 
 Set up the CLI profile to run operations on behalf of the service account:
-То есть, сервисный аккаунт должен иметь cli профиль?
+То есть, сервисный аккаунт должен иметь cli профиль, чтобы можно было переключаться между пользователями и их токенами
 - `yc config profile create terraform`
 
 Profile 'terraform' created and activated
@@ -47,6 +47,7 @@ Profile 'terraform' created and activated
 => rm all dirs & caches
 
 #установка addon-ов не работает без публичного ip master ноды (из интерфейса работает)
+
 #module "addons" {
 
 #https://developer.hashicorp.com/terraform/cli/config/environment-variables
