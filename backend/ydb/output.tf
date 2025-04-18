@@ -1,6 +1,7 @@
 output "ydb_full_endpoint" {
   description = "database connection string"
-  value       = yandex_ydb_database_serverless.database_serverless.document_api_endpoint
+  //https://terraform-provider.yandexcloud.net/Resources/ydb_database_serverless
+  value = yandex_ydb_database_serverless.database_serverless.document_api_endpoint
 }
 
 output "sa_access_key" {

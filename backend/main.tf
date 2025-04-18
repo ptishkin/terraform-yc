@@ -1,4 +1,6 @@
-#https://github.com/terraform-yc-modules/terraform-yc-kubernetes/blob/master/variables.tf
+#https://developer.hashicorp.com/terraform/language/backend/s3#s3-1
+#https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-state-lock#create-service-account
+#https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-state-storage
 terraform {
   /*backend "s3" {
     region = "ru-central1"
@@ -33,6 +35,7 @@ terraform {
 
 data "yandex_client_config" "this" {}
 
+//https://developer.hashicorp.com/terraform/language/state/remote-state-data
 data "terraform_remote_state" "ydb" {
   backend = "local"
   config = {
@@ -59,6 +62,7 @@ provider "yandex" {
   zone      = var.yds_region
 }
 
+//https://yandex.cloud/ru/docs/ydb/terraform/dynamodb-tables
 resource "aws_dynamodb_table" "terraform_state_locks" {
   name         = var.ydb_table
   billing_mode = "PAY_PER_REQUEST"
