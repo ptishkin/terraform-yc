@@ -14,20 +14,15 @@ on:
 
 jobs:
   terraform:
-    name: "Terraform"
-    runs-on: ubuntu-latest
-    env:
+    uses: ./.github/workflows/terraform.yml
+    with:
+      working-directory: vpc
+    defaults:
+      run:
+        working-directory: vpc
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
-    defaults:
-      run:
-        working-directory: vpc
-    steps:
-      - uses: actions/checkout@v4
-      - name: load terraform
-        uses: ./.github/actions/terraform
-        with:
-          working-directory: vpc
-          github-token: ${{ secrets.GITHUB_TOKEN }}

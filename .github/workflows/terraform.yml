@@ -12,12 +12,37 @@ on:
         default: 'master'
         type: string
     secrets:
-      github-token:
+      GITHUB_TOKEN:
         description: 'token to post comment'
         required: true
         type: string
+      AWS_ACCESS_KEY_ID:
+        description: 'access for aws like infra'
+        required: true
+        type: string
+      AWS_SECRET_ACCESS_KEY:
+        description: 'access for aws like infra'
+        required: true
+        type: string
+      AWS_ENDPOINT_URL_DYNAMODB:
+        description: 'access for aws like infra'
+        required: false
+        default: ""
+        type: string
+      YC_TOKEN:
+        description: 'access for aws like infra'
+        required: false
+        default: ""
+        type: string
 jobs:
   terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -51,7 +76,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ inputs.github-token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
