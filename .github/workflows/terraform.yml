@@ -12,7 +12,7 @@ on:
         default: 'master'
         type: string
     secrets:
-      GITHUB_TOKEN:
+      github-token:
         description: 'token to post comment'
         required: true
         type: string
@@ -76,7 +76,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.github-token }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
