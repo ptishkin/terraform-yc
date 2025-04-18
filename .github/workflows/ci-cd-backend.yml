@@ -8,7 +8,7 @@ on:
       - 'backend/**'
   pull_request:
     branches:
-      - main
+      - master
     paths:
       - 'backend/**'
 
