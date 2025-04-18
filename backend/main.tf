@@ -2,24 +2,23 @@
 #https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-state-lock#create-service-account
 #https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-state-storage
 terraform {
-  /*backend "s3" {
+  backend "s3" {
     region = "ru-central1"
-    endpoints {
-      s3       = "https://storage.yandexcloud.net"
-      dynamodb = "https://docapi.serverless.yandexcloud.net/ru-central1/b1g4aoclmf5bfpmghgju/etnj3a411gcr4ac2tnr1"
+    endpoints = {
+      s3 = "https://storage.yandexcloud.net"
     }
 
-    bucket         = "yds-terraform-state-backend"
-    key            = "backend/terraform.tfstate"
-    dynamodb_table = "yds-terraform-state-locks"
-    //access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
-    //secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
-    skip_region_validation      = true
+    bucket = "yds-terraform-state-backend"
+    key    = "backend/terraform.tfstate"
+    //dynamodb_table = "yds-terraform-state-locks"
+    use_lockfile                = true
     skip_credentials_validation = true
+    skip_region_validation      = true
     skip_requesting_account_id  = true # This option is required for Terraform 1.6.1 or higher.
-    skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
+    skip_metadata_api_check     = true
+    //skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
     //encrypt                     = true
-  }*/
+  }
 
   required_providers {
     yandex = {
@@ -75,18 +74,54 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 }
 
 // Use keys to create bucket
+resource "yandex_kms_symmetric_key" "key-a" {
+  name              = "example-symetric-key"
+  description       = "description for key"
+  default_algorithm = "AES_256"
+  rotation_period   = "87600h" // equal to 1 year
+}
 
 resource "yandex_storage_bucket" "terraform_state" {
   access_key = data.terraform_remote_state.ydb.outputs.sa_access_key
   secret_key = data.terraform_remote_state.ydb.outputs.sa_secret_key
   bucket     = var.state_bucket
+
+  acl = "private"
+
+  versioning {
+    enabled = true
+  }
+
+  anonymous_access_flags {
+    read        = false
+    list        = false
+    config_read = false
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  object_lock_configuration {
+    object_lock_enabled = "Enabled"
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "aws:kms"
+        kms_master_key_id = yandex_kms_symmetric_key.key-a.id
+      }
+    }
+  }
 }
-/*resource "yandex_storage_object" "s3_access_block" {
+/*
+resource "yandex_storage_object" "s3_access_block" {
   bucket = yandex_storage_bucket.terraform_state.id
 
 }*/
-
-/*resource "aws_s3_bucket" "terraform_state" {
+/*
+resource "aws_s3_bucket" "terraform_state" {
   bucket = var.state_bucket
   versioning {
     enabled = true
@@ -95,7 +130,8 @@ resource "yandex_storage_bucket" "terraform_state" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
+        //sse_algorithm = "AES256"
+        sse_algorithm = "aws:kms"
       }
     }
   }
@@ -104,7 +140,7 @@ resource "yandex_storage_bucket" "terraform_state" {
     object_lock_enabled = "Enabled"
   }
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

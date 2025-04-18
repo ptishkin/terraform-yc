@@ -37,7 +37,7 @@ resource "yandex_iam_service_account_static_access_key" "terraform_state_sa-stat
 // Grant permissions
 resource "yandex_resourcemanager_folder_iam_member" "terraform_state_sa-editor" {
   folder_id = var.folder_id
-  role      = "storage.editor"
+  role      = "storage.admin"
   member    = "serviceAccount:${yandex_iam_service_account.terraform_state_sa.id}"
 }
 
@@ -46,3 +46,13 @@ resource "yandex_resourcemanager_folder_iam_member" "terraform_state_sa-dbadmin"
   role      = "ydb.admin"
   member    = "serviceAccount:${yandex_iam_service_account.terraform_state_sa.id}"
 }
+
+/*
+export AWS_ACCESS_KEY_ID=`terraform output -raw sa_access_key`
+export AWS_SECRET_ACCESS_KEY=`terraform output -raw sa_secret_key`
+export AWS_ENDPOINT_URL_DYNAMODB=`terraform output -raw ydb_full_endpoint`
+
+export AWS_ACCESS_KEY_ID=`terraform output -json | jq '.sa_access_key.value' | tr -d '"'`
+export AWS_SECRET_ACCESS_KEY=`terraform output -json | jq '.sa_secret_key.value' | tr -d '"'`
+export AWS_ENDPOINT_URL_DYNAMODB=`terraform output -json | jq '.ydb_full_endpoint.value' | tr -d '"'`
+*/
