@@ -12,9 +12,6 @@ on:
         default: 'master'
         type: string
     secrets:
-      github-token:
-        description: 'token to post comment'
-        required: true
       AWS_ACCESS_KEY_ID:
         description: 'access for aws like infra'
         required: true
@@ -72,7 +69,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.github-token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
