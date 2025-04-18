@@ -56,7 +56,6 @@ data "yandex_client_config" "this" {}
 provider "yandex" {
   folder_id = var.folder_id
   zone      = var.yds_region
-  token     = data.yandex_client_config.this.iam_token
 }
 
 //https://yandex.cloud/ru/docs/ydb/terraform/dynamodb-tables
