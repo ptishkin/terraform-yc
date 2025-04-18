@@ -38,8 +38,8 @@ module "yc-vpc" {
   network_description = "Test network created with module"
   private_subnets = [
     {
-      name           = "subnet-1"
-      zone           = "ru-central1-a"
+      name           = "subnet"
+      zone           = var.yds_region
       v4_cidr_blocks = ["10.10.0.0/24"]
     }
   ]
