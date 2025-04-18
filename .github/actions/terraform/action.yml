@@ -1,22 +1,23 @@
-name: 'Run Terraform plan or apply steps'
-description: ''
-branding:
-  icon: 'arrow-right-circle'
-  color: 'gray-dark'
-inputs:
-  working-directory:
-    description: 'custom git dir'
-    required: false
-    default: ${{ env.working-directory }}
-  main-git-tree:
-    description: 'main tree of git'
-    required: false
-    default: 'master'
-  github-token:
-    description: 'token to post comment'
-    required: true
-runs:
-    using: 'composite'
+name: "Terraform CI/CD"
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'custom git dir'
+        required: true
+        type: string
+      main-git-tree:
+        description: 'main tree of git'
+        required: false
+        default: 'master'
+        type: string
+    secrets:
+      github-token:
+        description: 'token to post comment'
+        required: true
+        type: string
+jobs:
+  terraform:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
