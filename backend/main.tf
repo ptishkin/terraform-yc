@@ -2,14 +2,13 @@
 #https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-state-lock#create-service-account
 #https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-state-storage
 terraform {
-  backend "s3" {
+  /*backend "s3" {
     region = "ru-central1"
     endpoints = {
       s3 = "https://storage.yandexcloud.net"
     }
 
     bucket = "yds-terraform-state-backend"
-    key    = "backend/terraform.tfstate"
     //dynamodb_table = "yds-terraform-state-locks"
     use_lockfile                = true
     skip_credentials_validation = true
@@ -18,7 +17,9 @@ terraform {
     skip_metadata_api_check     = true
     //skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
     //encrypt                     = true
-  }
+
+    key = "backend/terraform.tfstate"
+  }*/
 
   required_providers {
     yandex = {
@@ -106,14 +107,14 @@ resource "yandex_storage_bucket" "terraform_state" {
     object_lock_enabled = "Enabled"
   }
 
-  server_side_encryption_configuration {
+  /*server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
         sse_algorithm     = "aws:kms"
         kms_master_key_id = yandex_kms_symmetric_key.key-a.id
       }
     }
-  }
+  }*/
 }
 /*
 resource "yandex_storage_object" "s3_access_block" {
