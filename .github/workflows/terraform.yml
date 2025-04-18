@@ -15,25 +15,20 @@ on:
       github-token:
         description: 'token to post comment'
         required: true
-        type: string
       AWS_ACCESS_KEY_ID:
         description: 'access for aws like infra'
         required: true
-        type: string
       AWS_SECRET_ACCESS_KEY:
         description: 'access for aws like infra'
         required: true
-        type: string
       AWS_ENDPOINT_URL_DYNAMODB:
         description: 'access for aws like infra'
         required: false
         default: ""
-        type: string
       YC_TOKEN:
         description: 'access for aws like infra'
         required: false
         default: ""
-        type: string
 jobs:
   terraform:
     name: "Terraform"
