@@ -1,6 +1,6 @@
 #https://github.com/terraform-yc-modules/terraform-yc-kubernetes/blob/master/variables.tf
 terraform {
-  backend "s3" {
+  /*backend "s3" {
     region = "ru-central1"
     endpoints {
       s3       = "https://storage.yandexcloud.net"
@@ -17,7 +17,7 @@ terraform {
     skip_requesting_account_id  = true # This option is required for Terraform 1.6.1 or higher.
     skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
     //encrypt                     = true
-  }
+  }*/
 
   required_providers {
     yandex = {
