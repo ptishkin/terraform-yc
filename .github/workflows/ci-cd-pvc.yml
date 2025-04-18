@@ -1,0 +1,32 @@
+name: "Terraform CI/CD Backend"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'pvc/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'pvc/**'
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    defaults:
+      run:
+        working-directory: pvc
+    steps:
+      - name: load terraform
+        uses: ./.github/actions/terraform.yaml
+        with:
+          working-directory: pvc
+          github-token: ${{ secrets.GITHUB_TOKEN }}
