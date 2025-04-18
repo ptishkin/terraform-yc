@@ -24,11 +24,9 @@ on:
       AWS_ENDPOINT_URL_DYNAMODB:
         description: 'access for aws like infra'
         required: false
-        default: ""
       YC_TOKEN:
         description: 'access for aws like infra'
         required: false
-        default: ""
 jobs:
   terraform:
     name: "Terraform"
