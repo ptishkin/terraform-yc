@@ -2,7 +2,7 @@
 #https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-state-lock#create-service-account
 #https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-state-storage
 terraform {
-  /*backend "s3" {
+  backend "s3" {
     region = "ru-central1"
     endpoints = {
       s3 = "https://storage.yandexcloud.net"
@@ -19,7 +19,7 @@ terraform {
     //encrypt                     = true
 
     key = "backend/terraform.tfstate"
-  }*/
+  }
 
   required_providers {
     yandex = {
@@ -33,29 +33,25 @@ terraform {
   required_version = ">= 0.13"
 }
 
-data "yandex_client_config" "this" {}
-
 //https://developer.hashicorp.com/terraform/language/state/remote-state-data
-data "terraform_remote_state" "ydb" {
+/*data "terraform_remote_state" "ydb" {
   backend = "local"
   config = {
     path = "ydb/terraform.tfstate"
   }
-}
+}*/
 
 provider "aws" {
   region = "ru-central1"
   endpoints {
-    s3       = "https://storage.yandexcloud.net"
-    dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
+    s3 = "https://storage.yandexcloud.net"
   }
-  access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
-  secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_region_validation      = true
   skip_requesting_account_id  = true
 }
+data "yandex_client_config" "this" {}
 
 provider "yandex" {
   folder_id = var.folder_id
@@ -83,9 +79,7 @@ resource "yandex_kms_symmetric_key" "key-a" {
 }
 
 resource "yandex_storage_bucket" "terraform_state" {
-  access_key = data.terraform_remote_state.ydb.outputs.sa_access_key
-  secret_key = data.terraform_remote_state.ydb.outputs.sa_secret_key
-  bucket     = var.state_bucket
+  bucket = var.state_bucket
 
   acl = "private"
 
