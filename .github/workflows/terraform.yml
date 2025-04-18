@@ -6,15 +6,12 @@ on:
         description: 'custom git dir'
         required: true
         type: string
-      main-git-tree:
+      main-branch:
         description: 'main tree of git'
         required: false
-        default: 'master'
+        default: 'refs/heads/master'
         type: string
     secrets:
-      github-token:
-        description: 'token to post comment'
-        required: true
       AWS_ACCESS_KEY_ID:
         description: 'access for aws like infra'
         required: true
@@ -72,7 +69,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.github-token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
@@ -101,5 +98,5 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/${{ inputs.main-git-tree }}' && github.event_name == 'push'
+        if: ${{ github.ref == inputs.main-branch && github.event_name == 'push' }}
         run: terraform apply -auto-approve
