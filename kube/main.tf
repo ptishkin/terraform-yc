@@ -29,7 +29,8 @@ terraform {
 }
 
 provider "yandex" {
-  zone = var.yds_region
+  folder_id = var.folder_id
+  zone      = var.yds_region
 }
 
 data "terraform_remote_state" "vpc" {
