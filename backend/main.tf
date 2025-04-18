@@ -33,13 +33,24 @@ terraform {
   required_version = ">= 0.13"
 }
 
-data "yandex_client_config" "this" {}
-
 //https://developer.hashicorp.com/terraform/language/state/remote-state-data
 data "terraform_remote_state" "ydb" {
-  backend = "local"
+  /*backend = "local"
   config = {
     path = "ydb/terraform.tfstate"
+  }*/
+  backend = "s3"
+  config = {
+    region = "ru-central1"
+    endpoints = {
+      s3 = "https://storage.yandexcloud.net"
+    }
+    bucket                      = "yds-terraform-state-backend"
+    key                         = "backend/ybd/terraform.tfstate"
+    skip_region_validation      = true
+    skip_credentials_validation = true
+    skip_requesting_account_id  = true # This option is required for Terraform 1.6.1 or higher.
+    skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
   }
 }
 
