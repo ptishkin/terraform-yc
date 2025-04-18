@@ -131,7 +131,8 @@ resource "helm_release" "jetstack" {
 resource "helm_release" "rancher" {
   #  depends_on       = [helm_release.cert-manager, time_sleep.wait_for_cert_manager]
   depends_on = [
-    helm_release.jetstack
+    helm_release.jetstack,
+    module.addons
   ]
 
   name             = "rancher"
