@@ -2,7 +2,7 @@
 #https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-state-lock#create-service-account
 #https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-state-storage
 terraform {
-  /*backend "s3" {
+  backend "s3" {
     region = "ru-central1"
     endpoints = {
       s3 = "https://storage.yandexcloud.net"
@@ -19,7 +19,7 @@ terraform {
     //encrypt                     = true
 
     key = "backend/terraform.tfstate"
-  }*/
+  }
 
   required_providers {
     yandex = {
@@ -46,11 +46,11 @@ data "terraform_remote_state" "ydb" {
 provider "aws" {
   region = "ru-central1"
   endpoints {
-    s3       = "https://storage.yandexcloud.net"
-    dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
+    s3 = "https://storage.yandexcloud.net"
+    //dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
   }
-  access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
-  secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
+  //access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
+  //secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_region_validation      = true
