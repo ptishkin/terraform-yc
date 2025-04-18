@@ -57,11 +57,11 @@ data "terraform_remote_state" "ydb" {
 provider "aws" {
   region = "ru-central1"
   endpoints {
-    s3 = "https://storage.yandexcloud.net"
-    //dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
+    s3       = "https://storage.yandexcloud.net"
+    dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
   }
-  //access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
-  //secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
+  access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
+  secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_region_validation      = true
