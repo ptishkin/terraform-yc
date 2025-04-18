@@ -34,34 +34,18 @@ terraform {
 }
 
 //https://developer.hashicorp.com/terraform/language/state/remote-state-data
-data "terraform_remote_state" "ydb" {
-  /*backend = "local"
+/*data "terraform_remote_state" "ydb" {
+  backend = "local"
   config = {
     path = "ydb/terraform.tfstate"
-  }*/
-  backend = "s3"
-  config = {
-    region = "ru-central1"
-    endpoints = {
-      s3 = "https://storage.yandexcloud.net"
-    }
-    bucket                      = "yds-terraform-state-backend"
-    key                         = "backend/ybd/terraform.tfstate"
-    skip_region_validation      = true
-    skip_credentials_validation = true
-    skip_requesting_account_id  = true # This option is required for Terraform 1.6.1 or higher.
-    skip_s3_checksum            = true # This option is required to describe a backend for Terraform version 1.6.3 or higher.
   }
-}
+}*/
 
 provider "aws" {
   region = "ru-central1"
   endpoints {
-    s3       = "https://storage.yandexcloud.net"
-    dynamodb = data.terraform_remote_state.ydb.outputs.ydb_full_endpoint
+    s3 = "https://storage.yandexcloud.net"
   }
-  access_key                  = data.terraform_remote_state.ydb.outputs.sa_access_key
-  secret_key                  = data.terraform_remote_state.ydb.outputs.sa_secret_key
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_region_validation      = true
@@ -94,9 +78,7 @@ resource "yandex_kms_symmetric_key" "key-a" {
 }
 
 resource "yandex_storage_bucket" "terraform_state" {
-  access_key = data.terraform_remote_state.ydb.outputs.sa_access_key
-  secret_key = data.terraform_remote_state.ydb.outputs.sa_secret_key
-  bucket     = var.state_bucket
+  bucket = var.state_bucket
 
   acl = "private"
 
