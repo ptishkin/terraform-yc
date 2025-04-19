@@ -40,14 +40,9 @@ on:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
-  variables:
-    name: "Skipped"
+  conditions:
+    name: "conditions"
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
     steps:
       - name: Skipped
         run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
