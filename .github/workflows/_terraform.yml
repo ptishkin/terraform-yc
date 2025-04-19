@@ -105,3 +105,18 @@ jobs:
       - name: Terraform Apply
         if: ${{ github.ref == inputs.main-branch && github.event_name == 'push' }}
         run: terraform apply -auto-approve
+  skipped:
+    if: inputs.condition != 'true'
+    name: "Skipped"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Skipped
+        run: "echo 'Skipped'"
