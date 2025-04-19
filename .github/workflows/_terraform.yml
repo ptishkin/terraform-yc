@@ -92,6 +92,8 @@ jobs:
           terraform plan -input=false -out=plan.tmp 
           terraform show -no-color plan.tmp >${GITHUB_WORKSPACE}/plan.out
         continue-on-error: true
+        
+      - run: echo "${{ steps.plan.outcome }} ${{ steps.plan.outputs.exitcode }}"
 
       - name: plan reqchange
         id: plan_reqchange
