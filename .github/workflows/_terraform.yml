@@ -159,6 +159,8 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+        continue-on-error: true
+        
       - name: No changes
         id: nochange
         if: ${{ steps.apply.outcome == 'success' ||
