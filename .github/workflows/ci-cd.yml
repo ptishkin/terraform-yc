@@ -21,10 +21,10 @@ jobs:
         id: changes
         with:
           filters: |
-            backend: 'backend/**'
-            vpc: 'vpc/**'
-            kube: 'kube/**'
-            kube_addons: 'kube/addons/**'
+            backend: 'backend/*'
+            vpc: 'vpc/*'
+            kube: 'kube/*'
+            kube_addons: 'kube/addons/*'
 
   backend:
     needs: [changes]
