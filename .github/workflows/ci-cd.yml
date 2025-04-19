@@ -10,7 +10,7 @@ on:
 
 jobs:
   backend:
-    uses: ./.github/workflows/tmpl/terraform.yml
+    uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
       paths: 'backend/**'
@@ -21,7 +21,7 @@ jobs:
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
   vpc:
     needs: [backend]
-    uses: ./.github/workflows/tmpl/terraform.yml
+    uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
       paths: 'vpc/**'
@@ -32,7 +32,7 @@ jobs:
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
   kube:
     needs: [backend, vpc]
-    uses: ./.github/workflows/tmpl/terraform.yml
+    uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
       paths: 'kube/**'
@@ -43,7 +43,7 @@ jobs:
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
   kube_addons:
     needs: [backend, vpc, kube]
-    uses: ./.github/workflows/tmpl/terraform.yml
+    uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
       paths: 'kube/addons/**'
