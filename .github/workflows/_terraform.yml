@@ -10,6 +10,10 @@ on:
         description: 'to execute must be "true"'
         required: true
         type: boolean
+      condition2:
+        description: 'to execute must be "true"'
+        required: false
+        type: boolean
       main-branch:
         description: 'main tree of git'
         required: false
@@ -47,7 +51,7 @@ jobs:
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
     steps:
       - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.condition }}"
+        run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
 
   terraform:
     if: inputs.condition == true
