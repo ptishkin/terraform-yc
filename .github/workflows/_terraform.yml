@@ -40,12 +40,12 @@ on:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
-  conditions:
-    name: "conditions"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.nochange }} and ${{ inputs.allow_tf }}"
+  # conditions:
+  #   name: "conditions"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Skipped
+  #       run: "echo 'Skipped' ${{ inputs.nochange }} and ${{ inputs.allow_tf }}"
 
   terraform:
     if: inputs.allow_tf == 'true'
