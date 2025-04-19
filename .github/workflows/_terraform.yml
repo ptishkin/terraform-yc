@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
+        run: "echo 'Skipped' ${{ inputs.nochange }} and ${{ inputs.allow_tf }}"
 
   terraform:
     if: inputs.allow_tf == 'true'
