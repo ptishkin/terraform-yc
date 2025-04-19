@@ -60,7 +60,7 @@ jobs:
       working-directory: kube
       #false true = false
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
-      allow_tf: ${{  && needs.vpc.outputs.nochange == 'true' }}
+      allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
