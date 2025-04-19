@@ -21,7 +21,6 @@ on:
 jobs:
   terraform:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [Terraform CI/CD VPC, Terraform CI/CD Backend]
     uses: ./.github/workflows/terraform.yml
     with:
       working-directory: kube
