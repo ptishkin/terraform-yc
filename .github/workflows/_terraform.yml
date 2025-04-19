@@ -109,9 +109,11 @@ jobs:
       - env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}\n${{ steps.apply.outputs.stdout }}"
         run: |
-          cat << EOT > ${GITHUB_WORKSPACE}/plan.out
-          ${PLAN}
-          EOT
+          touch ${GITHUB_WORKSPACE}/plan.out
+          end=$(( ${#PLAN} - 64000 ))
+          for i in $(seq 0 $end); do
+              echo -n "${stringZ:$i:64000}" >> ${GITHUB_WORKSPACE}/plan.out
+          done
 
       - uses: actions/github-script@v7
         id: state
