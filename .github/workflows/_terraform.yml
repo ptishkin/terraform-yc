@@ -37,7 +37,7 @@ on:
         value: ${{ inputs.condition && jobs.terraform.outputs.applied }}
 jobs:
   terraform:
-    if: inputs.condition == true
+    if: ${{ inputs.condition == true }}
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
@@ -125,7 +125,7 @@ jobs:
         run: exit 1
 
   skipped:
-    if: inputs.condition != true
+    if: ${{ inputs.condition != true }}
     name: "Skipped"
     runs-on: ubuntu-latest
     env:
