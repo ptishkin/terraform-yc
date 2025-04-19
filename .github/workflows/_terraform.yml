@@ -7,9 +7,9 @@ on:
         required: true
         type: string
       condition:
-        description: 'to execute must be true'
+        description: 'to execute must be "true"'
         required: true
-        type: boolean
+        type: string
       main-branch:
         description: 'main tree of git'
         required: false
@@ -28,10 +28,16 @@ on:
       YC_TOKEN:
         description: 'access for aws like infra'
         required: false
-
+    outputs:
+      executed:
+        description: "try execute"
+        value: ${{ inputs.condition == true }}
+      applied:
+        description: "plan applied"
+        value: ${{ jobs.terraform.outputs.applied }}
 jobs:
   terraform:
-    if: inputs.condition == true
+    if: inputs.condition == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
@@ -114,7 +120,7 @@ jobs:
         run: exit 1
 
   skipped:
-    if: inputs.condition == false
+    if: inputs.condition != 'true'
     name: "Skipped"
     runs-on: ubuntu-latest
     env:

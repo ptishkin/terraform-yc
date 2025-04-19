@@ -52,7 +52,6 @@ jobs:
 
   kube:
     needs: [changes, backend, vpc]
-    if: needs.changes.outputs.kube == 'true' || needs.changes.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
