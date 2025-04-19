@@ -18,16 +18,23 @@ defaults:
 jobs:
   changes:
     runs-on: ubuntu-latest
-    uses: dorny/paths-filter@v3
-    with:
-      filters: |
-        backend: 'backend/**'
-        vpc: 'vpc/**'
-        kube: 'kube/**'
-        kube_addons: 'kube/addons/**'
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      vpc: ${{ steps.changes.outputs.vpc }}
+      kube: ${{ steps.changes.outputs.kube }}
+      kube_addons: ${{ steps.changes.outputs.kube_addons }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            backend: 'backend/**'
+            vpc: 'vpc/**'
+            kube: 'kube/**'
+            kube_addons: 'kube/addons/**'
   backend:
     needs: [changes]
-    if: steps.changes.outputs.backend == 'true'
+    if: needs.changed.outputs.backend == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
@@ -35,7 +42,7 @@ jobs:
 
   vpc:
     needs: [changes, backend]
-    if: steps.changes.outputs.vpc == 'true'
+    if: needs.changed.outputs.vpc == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
@@ -43,7 +50,7 @@ jobs:
 
   kube:
     needs: [changes, backend, vpc]
-    if: steps.changes.outputs.kube == 'true'
+    if: needs.changed.outputs.kube == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
@@ -51,7 +58,7 @@ jobs:
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
-    if: steps.changes.outputs.kube_addons == 'true'
+    if: needs.changed.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
