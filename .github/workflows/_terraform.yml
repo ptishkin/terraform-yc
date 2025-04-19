@@ -19,6 +19,11 @@ on:
         required: false
         default: 'refs/heads/master'
         type: string
+      job_name:
+        description: 'name of job'
+        required: false
+        default: 'Terraform'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         description: 'access for aws like infra'
@@ -39,6 +44,8 @@ on:
       applied:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
+
+run-name: ${{ inputs.job_name }} by @${{ github.actor }}
 jobs:
   # conditions:
   #   name: "conditions"
@@ -50,6 +57,7 @@ jobs:
   terraform:
     if: inputs.allow_tf == 'true'
     name: "Terraform"
+    
     runs-on: ubuntu-latest
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
