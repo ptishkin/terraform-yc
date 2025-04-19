@@ -28,7 +28,7 @@ jobs:
 
   backend:
     needs: [changes]
-    if: needs.changed.outputs.backend == 'true'
+    if: needs.changed.outputs.backend == 'true' OR needs.changed.outputs.vpc == 'true' OR needs.changed.outputs.kube == 'true' OR needs.changed.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
@@ -41,7 +41,7 @@ jobs:
 
   vpc:
     needs: [changes, backend]
-    if: needs.changed.outputs.vpc == 'true'
+    if: needs.changed.outputs.vpc == 'true' OR needs.changed.outputs.kube == 'true' OR needs.changed.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
@@ -54,7 +54,7 @@ jobs:
 
   kube:
     needs: [changes, backend, vpc]
-    if: needs.changed.outputs.kube == 'true'
+    if: needs.changed.outputs.kube == 'true' OR needs.changed.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
