@@ -41,7 +41,7 @@ module "yc-vpc" {
     {
       name           = "subnet"
       zone           = var.yds_region
-      v4_cidr_blocks = ["10.11.0.0/24"]
+      v4_cidr_blocks = ["10.10.0.0/24"]
     }
   ]
 }
