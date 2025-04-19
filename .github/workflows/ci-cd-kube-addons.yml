@@ -18,8 +18,12 @@ on:
       - completed
     branches: [master]
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  terraform:
+  kube_addons:
     uses: ./.github/workflows/terraform.yml
     with:
       working-directory: kube/addons

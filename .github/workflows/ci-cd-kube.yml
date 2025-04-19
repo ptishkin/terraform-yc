@@ -19,7 +19,7 @@ on:
     branches: [master]
 
 jobs:
-  terraform:
+  kube:
     uses: ./.github/workflows/terraform.yml
     with:
       working-directory: kube

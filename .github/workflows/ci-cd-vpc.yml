@@ -13,8 +13,7 @@ on:
       - 'vpc/**'
 
 jobs:
-  terraform:
-    needs: [Terraform CI/CD Backend]
+  vpc:
     uses: ./.github/workflows/terraform.yml
     with:
       working-directory: vpc
