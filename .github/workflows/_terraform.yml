@@ -108,7 +108,7 @@ jobs:
         
       - env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}\n${{ steps.apply.outputs.stdout }}"
-        run: echo "${process.env.PLAN}" > ${GITHUB_WORKSPACE}/plan.out
+        run: echo "${PLAN}" > ${GITHUB_WORKSPACE}/plan.out
 
       - uses: actions/github-script@v7
         id: state
