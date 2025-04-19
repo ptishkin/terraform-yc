@@ -35,26 +35,25 @@ on:
     outputs:
       nochange:
         description: "no changes planned or applied"
-        value: ${{ inputs.condition != 'true' || jobs.terraform.outputs.nochange }}
+        value: ${{ jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
-  skipped:
-    if: inputs.condition != 'true'
-    name: "Skipped"
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
-    steps:
-      - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
+  # skipped:
+  #   if: inputs.condition != 'true'
+  #   name: "Skipped"
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+  #     YC_TOKEN: ${{ secrets.YC_TOKEN }}
+  #   steps:
+  #     - name: Skipped
+  #       run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
 
   terraform:
-    if: inputs.condition == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
@@ -102,7 +101,7 @@ jobs:
       
       - name: Terraform Apply
         id: apply
-        if: ${{ github.ref == inputs.main-branch && github.event_name == 'push' }}
+        if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.condition != 'true' }}
         run: terraform apply -auto-approve -no-color
         continue-on-error: true
         
