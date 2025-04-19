@@ -34,7 +34,7 @@ on:
         required: false
     outputs:
       nochange:
-        description: "no changes planned or applied"
+        description: "no changes plan or applied"
         value: ${{ jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
@@ -92,10 +92,10 @@ jobs:
 
       - name: plan reqchange
         id: plan_reqchange
-        if: ${{ steps.planned.outcome == 'skipped' ||
+        if: ${{ steps.plan.outcome == 'skipped' ||
                 (
-                  steps.planned.outcome == 'success' &&
-                  contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
+                  steps.plan.outcome == 'success' &&
+                  contains(steps.plan.stdout, 'No changes. Your infrastructure matches the configuration.') != true
                 )
             }}
         run: "echo plan skipped or req changes"
@@ -144,13 +144,13 @@ jobs:
         id: nochange
         if: ${{ steps.apply.outcome == 'success' ||
                 (
-                  steps.planned.outcome == 'skipped' ||
+                  steps.plan.outcome == 'skipped' ||
                   (
-                    steps.planned.outcome == 'success' &&
-                    contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.')
+                    steps.plan.outcome == 'success' &&
+                    contains(steps.plan.stdout, 'No changes. Your infrastructure matches the configuration.')
                   )
                 )}}
-        run: "echo apply: ${{ steps.apply.outcome }}, planned: ${{ steps.planned.outcome }}"
+        run: "echo apply: ${{ steps.apply.outcome }}, plan: ${{ steps.plan.outcome }}"
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure' || steps.apply.outcome == 'failure'
