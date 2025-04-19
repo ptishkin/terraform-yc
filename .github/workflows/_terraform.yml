@@ -9,7 +9,7 @@ on:
       condition:
         description: 'to execute must be "true"'
         required: true
-        type: boolean
+        type: string
       condition2:
         description: 'to execute must be "true"'
         required: false
