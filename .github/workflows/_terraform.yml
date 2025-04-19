@@ -57,7 +57,6 @@ jobs:
   terraform:
     if: inputs.allow_tf == 'true'
     name: "Terraform"
-    run-name: ${{ inputs.job_name }} by @${{ github.actor }}
     runs-on: ubuntu-latest
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
@@ -140,12 +139,13 @@ jobs:
             const plan = plan_file.length > 65000 ? plan_file.toString().substring(0, 65000) + " ..." : plan_file
             const truncated_message = plan_file.length > 65000 ? "Output is too long and was truncated. You can read full Plan in " + run_link + "<br /><br />" : ""
             
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Terraform Plan Request Change 📖\`${{ steps.plan_reqchange.outcome }}\`
-            #### Terraform Apply 📖\`${{ steps.apply.outcome }}\`
+            const output = `## Terraform \`${{ inputs.job_name }}\`
+            #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Plan Request Change 📖\`${{ steps.plan_reqchange.outcome }}\`
+            #### Apply 📖\`${{ steps.apply.outcome }}\`
             
             <details><summary>Show Details</summary>
             
