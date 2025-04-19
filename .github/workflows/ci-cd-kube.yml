@@ -20,8 +20,8 @@ on:
 
 jobs:
   terraform:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: ./.github/workflows/terraform.yml
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     with:
       working-directory: kube
     secrets:
