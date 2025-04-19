@@ -42,11 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
-      nochange: ${{ steps.apply.outcome == 'success' ||
-                (
-                  steps.planned.outcome == 'success' &&
-                  contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.')
-                )}}
+      nochange: ${{ steps.planned.outcome == 'success' }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
