@@ -111,7 +111,6 @@ jobs:
         run: |
           touch ${GITHUB_WORKSPACE}/plan.out
           
-          a=$PLAN
 
       - uses: actions/github-script@v7
         id: state
