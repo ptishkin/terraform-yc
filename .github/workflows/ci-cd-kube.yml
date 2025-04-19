@@ -19,9 +19,9 @@ on:
     branches: [master]
 
 jobs:
+  if: ${{ github.event.workflow_run.conclusion == 'success' }}
   terraform:
     uses: ./.github/workflows/terraform.yml
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     with:
       working-directory: kube
     secrets:
