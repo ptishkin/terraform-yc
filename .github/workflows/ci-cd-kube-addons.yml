@@ -20,7 +20,6 @@ on:
 
 jobs:
   terraform:
-    needs: [Terraform CI/CD VPC, Terraform CI/CD Backend, Terraform CI/CD kube]
     uses: ./.github/workflows/terraform.yml
     with:
       working-directory: kube/addons
