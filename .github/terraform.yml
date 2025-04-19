@@ -6,6 +6,11 @@ on:
         description: 'custom git dir'
         required: true
         type: string
+      paths:
+        description: 'dir of change'
+        required: false
+        default: 'backend/**'
+        type: string
       main-branch:
         description: 'main tree of git'
         required: false
