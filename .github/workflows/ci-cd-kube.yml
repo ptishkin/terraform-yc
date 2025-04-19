@@ -12,8 +12,15 @@ on:
     paths:
       - 'kube/**'
 
+  workflow_run:
+    workflows: ['Terraform CI/CD VPC']
+    types:
+      - completed
+    branches: [master]
+
 jobs:
   terraform:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: [Terraform CI/CD VPC, Terraform CI/CD Backend]
     uses: ./.github/workflows/terraform.yml
     with:
@@ -23,3 +30,5 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+  next:
+    
