@@ -127,6 +127,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Plan Request Change 📖\`${{ steps.plan_reqchange.outcome }}\`
             #### Terraform Apply 📖\`${{ steps.apply.outcome }}\`
             
             <details><summary>Show Details</summary>
