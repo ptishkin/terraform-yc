@@ -35,7 +35,7 @@ on:
     outputs:
       nochange:
         description: "no changes planned or applied"
-        value: ${{ jobs.terraform.outputs.nochange }}
+        value: ${{ inputs.condition != true || jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
