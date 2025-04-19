@@ -121,7 +121,7 @@ jobs:
         run: exit 1
 
   skipped:
-    if: ! inputs.condition
+    if: inputs.condition != true
     name: "Skipped"
     runs-on: ubuntu-latest
     env:
