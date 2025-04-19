@@ -6,12 +6,12 @@ on:
         description: 'custom git dir'
         required: true
         type: string
-      condition:
-        description: 'to execute must be "true"'
+      nochange:
+        description: 'not changed files in pr'
         required: true
         type: string
-      condition2:
-        description: 'to execute must be "true"'
+      allow_tf:
+        description: 'allow terraform calls'
         required: false
         type: string
       main-branch:
@@ -48,6 +48,7 @@ jobs:
         run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
 
   terraform:
+    if: inputs.allow_tf == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
@@ -100,7 +101,7 @@ jobs:
         #       steps.planned.outcome == 'success' &&
         #       contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
         #     ) }}
-        if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.condition == 'true' }}
+        if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.nochange == 'true' }}
         run: terraform apply -auto-approve -no-color
         continue-on-error: true
         

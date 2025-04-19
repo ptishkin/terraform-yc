@@ -31,7 +31,8 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
-      condition: ${{ needs.changes.outputs.backend == 'false' }}
+      nochange: ${{ needs.changes.outputs.backend == 'false' }}
+      allow_tf: 'true'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -44,8 +45,8 @@ jobs:
     with:
       working-directory: vpc
       #true true
-      condition: ${{ needs.changes.outputs.vpc == 'false' && needs.backend.outputs.nochange == 'true' }}
-      condition2: ${{ needs.backend.outputs.nochange }}
+      nochange: ${{ needs.changes.outputs.vpc == 'false' }}
+      allow_tf: ${{ needs.backend.outputs.nochange == 'true' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -58,8 +59,8 @@ jobs:
     with:
       working-directory: kube
       #false true = false
-      condition: ${{ needs.changes.outputs.kube == 'false' && needs.vpc.outputs.nochange == 'true' }}
-      condition2: ${{ needs.vpc.outputs.nochange }}
+      nochange: ${{ needs.changes.outputs.kube == 'false' }}
+      allow_tf: ${{  && needs.vpc.outputs.nochange == 'true' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -72,8 +73,8 @@ jobs:
     with:
       working-directory: kube/addons
       #false false => false
-      condition: ${{ needs.changes.outputs.kube_addons == 'false' && needs.kube.outputs.nochange == 'true' }}
-      condition2: ${{ needs.kube.outputs.nochange }}
+      nochange: ${{ needs.changes.outputs.kube_addons == 'false' }}
+      allow_tf: ${{ needs.kube.outputs.nochange == 'true' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
