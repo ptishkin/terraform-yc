@@ -35,11 +35,8 @@ jobs:
       working-directory: backend
       nochange: ${{ needs.changes.outputs.backend == 'false' }}
       allow_tf: 'true'
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+      job_name: "Backend S3"
+    secrets: inherit
 
   vpc:
     needs: [changes, backend]
@@ -49,11 +46,8 @@ jobs:
       #true true
       nochange: ${{ needs.changes.outputs.vpc == 'false' }}
       allow_tf: ${{ needs.backend.outputs.nochange == 'true' }}
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+      job_name: "VPC"
+    secrets: inherit
 
   kube:
     needs: [changes, backend, vpc]
@@ -63,11 +57,8 @@ jobs:
       #false true = false
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
       allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+      job_name: "Kubernetes"
+    secrets: inherit
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
@@ -77,8 +68,5 @@ jobs:
       #false false => false
       nochange: ${{ needs.changes.outputs.kube_addons == 'false' }}
       allow_tf: ${{ needs.kube.outputs.nochange == 'true' }}
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+      job_name: "Install helm addons"
+    secrets: inherit
