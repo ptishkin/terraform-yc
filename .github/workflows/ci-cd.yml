@@ -37,6 +37,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    outputs:
+      executed: ${{ Terraform.outputs.executed }}
+      applied: ${{ Terraform.outputs.applied }}
 
   vpc:
     needs: [changes, backend]
@@ -49,6 +52,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    outputs:
+      executed: ${{ Terraform.outputs.executed }}
+      applied: ${{ Terraform.outputs.applied }}
 
   kube:
     needs: [changes, backend, vpc]
@@ -61,6 +67,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    outputs:
+      executed: ${{ Terraform.outputs.executed }}
+      applied: ${{ Terraform.outputs.applied }}
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
@@ -73,3 +82,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    outputs:
+      executed: ${{ Terraform.outputs.executed }}
+      applied: ${{ Terraform.outputs.applied }}
