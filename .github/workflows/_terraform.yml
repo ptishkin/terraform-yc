@@ -40,12 +40,12 @@ on:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
-  conditions:
-    name: "conditions"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.nochange }} and ${{ inputs.allow_tf }}"
+  # conditions:
+  #   name: "conditions"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Skipped
+  #       run: "echo 'Skipped' ${{ inputs.nochange }} and ${{ inputs.allow_tf }}"
 
   terraform:
     if: inputs.allow_tf == 'true'
@@ -96,11 +96,11 @@ jobs:
       
       - name: Terraform Apply
         id: apply
-        # if: ${{ steps.planned.outcome == 'skipped' ||
-        #     (
-        #       steps.planned.outcome == 'success' &&
-        #       contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
-        #     ) }}
+        if: ${{ steps.planned.outcome == 'skipped' ||
+            (
+              steps.planned.outcome == 'success' &&
+              contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
+            ) }}
         if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.nochange == 'true' }}
         run: terraform apply -auto-approve -no-color
         continue-on-error: true
