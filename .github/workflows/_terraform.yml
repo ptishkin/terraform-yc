@@ -36,6 +36,19 @@ on:
         description: "plan applied"
         value: ${{ inputs.condition == true && jobs.terraform.outputs.applied == true }}
 jobs:
+  skipped:
+    if: inputs.condition != true
+    name: "Skipped"
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    steps:
+      - name: Skipped
+        run: "echo 'Skipped' ${{ inputs.condition }}"
+
   terraform:
     if: inputs.condition == true
     name: "Terraform"
@@ -123,16 +136,3 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure' || steps.apply.outcome == 'failure'
         run: exit 1
-
-  skipped:
-    if: inputs.condition != true
-    name: "Skipped"
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-      YC_TOKEN: ${{ secrets.YC_TOKEN }}
-    steps:
-      - name: Skipped
-        run: "echo 'Skipped' ${{ inputs.condition }}"
