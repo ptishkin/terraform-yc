@@ -139,6 +139,15 @@ jobs:
             const plan = plan_file.length > 65000 ? plan_file.toString().substring(0, 65000) + " ..." : plan_file
             const truncated_message = plan_file.length > 65000 ? "Output is too long and was truncated. You can read full Plan in " + run_link + "<br /><br />" : ""
             
+            const issues = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
+            })
+
+            const pr = context.issue.number || issues.data[issues.data.length-1].number
+            
             const output = `## Terraform \`${{ inputs.job_name }}\`
             #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Initialization ⚙️\`${{ steps.init.outcome }}\`
@@ -162,7 +171,7 @@ jobs:
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ inputs.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
               
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: pr,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
