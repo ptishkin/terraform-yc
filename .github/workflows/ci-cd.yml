@@ -33,12 +33,11 @@ jobs:
     with:
       working-directory: backend
       paths: 'backend/**'
-    defaults:
-      secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-        YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
 
   vpc:
     needs: [changes, backend]
@@ -47,12 +46,11 @@ jobs:
     with:
       working-directory: vpc
       paths: 'vpc/**'
-    defaults:
-      secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-        YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
 
   kube:
     needs: [changes, backend, vpc]
@@ -61,12 +59,11 @@ jobs:
     with:
       working-directory: kube
       paths: 'kube/**'
-    defaults:
-      secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-        YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
@@ -75,9 +72,8 @@ jobs:
     with:
       working-directory: kube/addons
       paths: 'kube/addons/**'
-    defaults:
-      secrets:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
-        YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
