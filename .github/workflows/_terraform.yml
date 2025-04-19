@@ -57,7 +57,7 @@ jobs:
   terraform:
     if: inputs.allow_tf == 'true'
     name: "Terraform"
-    
+    run-name: ${{ inputs.job_name }} by @${{ github.actor }}
     runs-on: ubuntu-latest
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
