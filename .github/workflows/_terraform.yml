@@ -7,9 +7,9 @@ on:
         required: true
         type: string
       condition:
-        description: 'custom git dir'
+        description: 'to execute must be "true"'
         required: true
-        type: boolean
+        type: string
       main-branch:
         description: 'main tree of git'
         required: false
@@ -30,7 +30,7 @@ on:
         required: false
 jobs:
   terraform:
-    if: condition
+    if: condition == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     env:
