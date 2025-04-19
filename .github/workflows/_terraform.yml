@@ -95,7 +95,12 @@ jobs:
       
       - name: Terraform Apply
         id: apply
-        if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.condition != 'true' }}
+        # if: ${{ steps.planned.outcome == 'skipped' ||
+        #     (
+        #       steps.planned.outcome == 'success' &&
+        #       contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
+        #     ) }}
+        if: ${{ (github.ref == inputs.main-branch && github.event_name == 'push') || inputs.condition == 'true' }}
         run: terraform apply -auto-approve -no-color
         continue-on-error: true
         
