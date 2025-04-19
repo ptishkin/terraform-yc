@@ -90,7 +90,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           terraform plan -input=false -no-color -out=plan.tmp
-          terraform show -no-color plan.tmp >${GITHUB_WORKSPACE}/plan.out
+          terraform show -no-color plan.tmp > ${GITHUB_WORKSPACE}/plan.out
         continue-on-error: true
       
       - name: Terraform Plan skipped
