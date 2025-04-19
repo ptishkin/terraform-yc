@@ -98,6 +98,7 @@ jobs:
                   contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.') != true
                 )
             }}
+        run: "echo plan skipped or req changes"
 
       - name: Terraform Apply
         id: apply
