@@ -35,13 +35,13 @@ on:
     outputs:
       nochange:
         description: "no changes planned or applied"
-        value: ${{ inputs.condition != true || jobs.terraform.outputs.nochange }}
+        value: ${{ inputs.condition != 'true' || jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
   skipped:
-    if: inputs.condition != true
+    if: inputs.condition != 'true'
     name: "Skipped"
     runs-on: ubuntu-latest
     env:
@@ -54,7 +54,7 @@ jobs:
         run: "echo 'Skipped' ${{ inputs.condition }} and ${{ inputs.condition2 }}"
 
   terraform:
-    if: inputs.condition == true
+    if: inputs.condition == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
