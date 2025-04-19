@@ -112,7 +112,7 @@ jobs:
           touch ${GITHUB_WORKSPACE}/plan.out
           end=$(( ${#PLAN} - 64000 ))
           for i in $(seq 0 $end); do
-              echo -n "${stringZ:$i:64000}" >> ${GITHUB_WORKSPACE}/plan.out
+              echo -n "${PLAN:$i:64000}" >> ${GITHUB_WORKSPACE}/plan.out
           done
 
       - uses: actions/github-script@v7
