@@ -28,11 +28,10 @@ jobs:
 
   backend:
     needs: [changes]
-    if: needs.changes.outputs.backend == 'true' || needs.changes.outputs.vpc == 'true' || needs.changes.outputs.kube == 'true' || needs.changes.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
-      paths: 'backend/**'
+      condition: needs.changes.outputs.backend == 'true'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -41,11 +40,10 @@ jobs:
 
   vpc:
     needs: [changes, backend]
-    if: needs.changes.outputs.vpc == 'true' || needs.changes.outputs.kube == 'true' || needs.changes.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
-      paths: 'vpc/**'
+      condition: needs.changes.outputs.vpc == 'true'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -58,7 +56,7 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
-      paths: 'kube/**'
+      condition: needs.changes.outputs.kube == 'true'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -67,11 +65,10 @@ jobs:
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
-    if: needs.changes.outputs.kube_addons == 'true'
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
-      paths: 'kube/addons/**'
+      condition: needs.changes.outputs.kube_addons == 'true'
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -6,11 +6,10 @@ on:
         description: 'custom git dir'
         required: true
         type: string
-      paths:
-        description: 'dir of change'
-        required: false
-        default: 'backend/**'
-        type: string
+      condition:
+        description: 'custom git dir'
+        required: true
+        type: bool
       main-branch:
         description: 'main tree of git'
         required: false
@@ -31,6 +30,7 @@ on:
         required: false
 jobs:
   terraform:
+    if: condition
     name: "Terraform"
     runs-on: ubuntu-latest
     env:
