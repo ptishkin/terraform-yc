@@ -29,9 +29,9 @@ on:
         description: 'access for aws like infra'
         required: false
     outputs:
-      executed:
-        description: "try execute"
-        value: ${{ inputs.condition == true }}
+      nochange:
+        description: "no changes planned or applied"
+        value: ${{ inputs.condition != true || jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
         value: ${{ jobs.terraform.outputs.applied }}
@@ -42,7 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
-      planned: ${{ steps.planned.outcome == 'success' }}
+      nochange: ${{ steps.apply.outcome == 'success' ||
+                (
+                  steps.planned.outcome == 'success' &&
+                  contains(steps.planned.stdout, 'No changes. Your infrastructure matches the configuration.')
+                )}}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

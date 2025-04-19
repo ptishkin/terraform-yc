@@ -43,7 +43,7 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
-      condition: ${{ needs.changes.outputs.vpc == 'true' }}
+      condition: ${{ needs.changes.outputs.vpc == 'true' && needs.backend.outputs.nochange }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -55,7 +55,7 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
-      condition: ${{ needs.changes.outputs.kube == 'true' }}
+      condition: ${{ needs.changes.outputs.kube == 'true' && needs.vpc.outputs.nochange }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -67,7 +67,7 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
-      condition: ${{ needs.changes.outputs.kube_addons == 'true' }}
+      condition: ${{ needs.changes.outputs.kube_addons == 'true' && needs.kube.outputs.nochange }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
