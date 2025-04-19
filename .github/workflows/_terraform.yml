@@ -142,7 +142,7 @@ jobs:
             const issues = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'closed',
+              state: 'close',
               head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
             })
 
