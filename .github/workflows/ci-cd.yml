@@ -67,7 +67,7 @@ jobs:
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
-      condition: ${{ needs.changes.outputs.kube_addons == 'true' && needs.kube.outputs.nochange }}
+      condition: ${{ needs.changes.outputs.kube_addons == 'true' && needs.kube.outputs.nochange == true }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
