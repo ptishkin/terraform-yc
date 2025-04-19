@@ -35,6 +35,7 @@ jobs:
       working-directory: backend
       nochange: ${{ needs.changes.outputs.backend == 'false' }}
       allow_tf: 'true'
+      job_name: "Backend S3"
     secrets: inherit
 
   vpc:
@@ -45,6 +46,7 @@ jobs:
       #true true
       nochange: ${{ needs.changes.outputs.vpc == 'false' }}
       allow_tf: ${{ needs.backend.outputs.nochange == 'true' }}
+      job_name: "VPC"
     secrets: inherit
 
   kube:
@@ -55,6 +57,7 @@ jobs:
       #false true = false
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
       allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
+      job_name: "Kubernetes"
     secrets: inherit
 
   kube_addons:
@@ -65,4 +68,5 @@ jobs:
       #false false => false
       nochange: ${{ needs.changes.outputs.kube_addons == 'false' }}
       allow_tf: ${{ needs.kube.outputs.nochange == 'true' }}
+      job_name: "Install helm addons"
     secrets: inherit
