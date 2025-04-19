@@ -73,7 +73,7 @@ jobs:
       working-directory: kube/addons
       #false false => false
       condition: ${{ needs.changes.outputs.kube_addons == 'false' && needs.kube.outputs.nochange == 'true' }}
-      condition2: ${{ needs.backend.outputs.nochange }}
+      condition2: ${{ needs.kube.outputs.nochange }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
