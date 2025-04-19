@@ -116,4 +116,4 @@ jobs:
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
     steps:
       - name: Skipped
-        run: "echo 'Skipped'"
+        run: "echo 'Skipped' ${{ inputs.condition }}"
