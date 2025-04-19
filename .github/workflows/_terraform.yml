@@ -30,7 +30,7 @@ on:
         required: false
 jobs:
   terraform:
-    if: condition == 'true'
+    if: inputs.condition == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
     env:
