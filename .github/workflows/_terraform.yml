@@ -9,7 +9,7 @@ on:
       condition:
         description: 'to execute must be "true"'
         required: true
-        type: string
+        type: boolean
       main-branch:
         description: 'main tree of git'
         required: false
@@ -37,7 +37,7 @@ on:
         value: ${{ jobs.terraform.outputs.applied }}
 jobs:
   terraform:
-    if: inputs.condition == 'true'
+    if: inputs.condition
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs:
@@ -87,6 +87,7 @@ jobs:
         
       - uses: actions/github-script@v7
         id: state
+        #Plan: 19 to add, 0 to change, 0 to destroy.
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}${{ steps.apply.outputs.stdout }}"
         with:
