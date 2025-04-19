@@ -95,7 +95,7 @@ jobs:
         if: ${{ steps.plan.outcome == 'skipped' ||
                 (
                   steps.plan.outcome == 'success' &&
-                  contains(steps.plan.stdout, 'No changes. Your infrastructure matches the configuration.') != true
+                  contains(steps.plan.stdout, 'No changes. Your infrastructure matches the configuration.') == false
                 ) }}
         run: "echo plan skipped or req changes"
 
