@@ -28,13 +28,7 @@ on:
       YC_TOKEN:
         description: 'access for aws like infra'
         required: false
-    outputs:
-      executed:
-        description: "try execute"
-        value: ${{ inputs.condition == true }}
-      applied:
-        description: "plan applied"
-        value: ${{ jobs.terraform.outputs.applied }}
+
 jobs:
   terraform:
     if: inputs.condition == true
