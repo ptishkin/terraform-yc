@@ -35,10 +35,10 @@ on:
     outputs:
       nochange:
         description: "no changes planned or applied"
-        value: ${{ inputs.condition != true || ( inputs.condition == true && jobs.terraform.outputs.nochange == true ) }}
+        value: ${{ jobs.terraform.outputs.nochange }}
       applied:
         description: "plan applied"
-        value: ${{ inputs.condition == true && jobs.terraform.outputs.applied == true }}
+        value: ${{ jobs.terraform.outputs.applied }}
 jobs:
   skipped:
     if: inputs.condition != true
