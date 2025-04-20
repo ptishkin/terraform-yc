@@ -77,10 +77,10 @@ jobs:
         id: plan
         if: github.event_name == 'pull_request'
         run: |
-          terraform plan -input=false -destory -no-color -out=plan.tmp
+          terraform plan -input=false -destroy -no-color -out=plan.tmp
           terraform show -no-color plan.tmp > ${GITHUB_WORKSPACE}/plan.out
         continue-on-error: true
 
       - name: Terraform Destroy
         id: destroy
-        run: terraform destory -auto-approve -no-color -input=false
+        run: terraform destroy -auto-approve -no-color -input=false
