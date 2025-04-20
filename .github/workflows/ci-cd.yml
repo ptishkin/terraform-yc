@@ -63,7 +63,6 @@ jobs:
     secrets: inherit
 
   kube:
-    environment: staging
     needs: [changes, backend, vpc]
     uses: ./.github/workflows/_terraform.yml
     with:
@@ -75,7 +74,6 @@ jobs:
     secrets: inherit
 
   kube_addons:
-    environment: staging
     needs: [changes, backend, vpc, kube]
     uses: ./.github/workflows/_terraform.yml
     with:
