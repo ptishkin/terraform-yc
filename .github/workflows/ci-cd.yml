@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: env
-        run: "echo 'environment' ${{ inputs.environment }} ${{ environment }} ${{ vars.environment }}"
+        run: "echo 'environment' ${{ inputs.environment }} ${{ vars.environment }}"
   
   backend:
     needs: [changes]
