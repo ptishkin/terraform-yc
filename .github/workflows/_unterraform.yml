@@ -83,7 +83,7 @@ jobs:
         if: steps.plan.outcome == 'success'
         id: apply
         run: |
-          terraform destroy -auto-approve -no-color -input=false -out=apply.tmp
+          terraform apply -destroy -auto-approve -no-color -input=false -out=apply.tmp
           terraform show -no-color apply.tmp > ${GITHUB_WORKSPACE}/apply.out
         continue-on-error: true
       
