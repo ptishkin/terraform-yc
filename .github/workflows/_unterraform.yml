@@ -2,6 +2,10 @@ name: "UnTerraform"
 on:
   workflow_call:
     inputs:
+      working-directory:
+        description: 'custom git dir'
+        required: true
+        type: string
       main-branch:
         description: 'main tree of git'
         required: false
