@@ -11,9 +11,11 @@ output "vpc_id" {
 output "private_subnets" {
   value       = module.yc-vpc.private_subnets
   description = "List of Id private subnets"
+  sensitive   = true
 }
 
 output "public_subnets" {
   value       = module.yc-vpc.public_subnets
   description = "List of Id public subnets"
+  sensitive   = true
 }
