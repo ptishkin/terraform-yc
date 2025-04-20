@@ -28,6 +28,9 @@ jobs:
         || github.ref_name == 'dev'    && 'dev'
         ||                                'staging'
         }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
   
   changes:
     needs: [env]
