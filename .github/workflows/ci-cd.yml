@@ -11,6 +11,7 @@ on:
         type: environment
         required: true
         default: staging
+
   workflow_dispatch:
     inputs:
       environment:
