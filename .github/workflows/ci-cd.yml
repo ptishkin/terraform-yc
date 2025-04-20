@@ -22,6 +22,7 @@ concurrency:
 
 jobs:
   changes:
+    environment: staging
     runs-on: ubuntu-latest
     outputs:
       backend: ${{ steps.changes.outputs.backend }}
@@ -41,7 +42,6 @@ jobs:
             kube_addons: 'kube/addons/*'
 
   backend:
-    environment: staging
     needs: [changes]
     uses: ./.github/workflows/_terraform.yml
     with:
@@ -52,7 +52,6 @@ jobs:
     secrets: inherit
 
   vpc:
-    environment: staging
     needs: [changes, backend]
     uses: ./.github/workflows/_terraform.yml
     with:
