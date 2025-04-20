@@ -1,0 +1,54 @@
+name: "Terraform Destroy"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run destroy'
+        type: environment
+        required: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.environment }}
+  cancel-in-progress: false
+
+jobs:
+  env:
+    outputs:
+      environment: |-
+        ${{
+           inputs.environment
+        || github.ref_name == 'master' && 'production'
+        || github.ref_name == 'dev'    && 'dev'
+        ||                                'staging'
+        }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+  vpc:
+    needs: [env, kube]
+    uses: ./.github/workflows/_unterraform.yml
+    with:
+      working-directory: vpc
+      job_name: "Remove VPC"
+      environment: ${{ needs.env.outputs.environment }}
+    secrets: inherit
+
+  kube:
+    needs: [env, kube_addons]
+    uses: ./.github/workflows/_unterraform.yml
+    with:
+      working-directory: kube
+      job_name: "Remove Kubernetes"
+      environment: ${{ needs.env.outputs.environment }}
+    secrets: inherit
+
+  kube_addons:
+    needs: [env]
+    uses: ./.github/workflows/_unterraform.yml
+    with:
+      working-directory: kube/addons
+      job_name: "Remove helm addons"
+      environment: ${{ needs.env.outputs.environment }}
+    secrets: inherit
