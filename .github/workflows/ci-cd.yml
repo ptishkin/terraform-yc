@@ -19,8 +19,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  env:
+    outputs:
+      environment: |-
+        ${{
+           inputs.environment
+        || github.ref_name == 'master' && 'production'
+        || github.ref_name == 'dev'    && 'dev'
+        ||                                'staging'
+        }}
+  
   changes:
-    environment: ${{ inputs.environment }}
+    needs: [env]
+    environment: ${{ jobs.env.outputs.environment }}
     runs-on: ubuntu-latest
     outputs:
       backend: ${{ steps.changes.outputs.backend }}
@@ -39,13 +50,6 @@ jobs:
             kube: 'kube/*'
             kube_addons: 'kube/addons/*'
 
-  conditions:
-    name: "conditions"
-    runs-on: ubuntu-latest
-    steps:
-      - name: env
-        run: echo "'environment' ${{ inputs.environment }} ${{ vars.environment }} ${{ github.environment }}"
-  
   backend:
     needs: [changes]
     uses: ./.github/workflows/_terraform.yml
@@ -54,7 +58,7 @@ jobs:
       nochange: ${{ needs.changes.outputs.backend == 'false' }}
       allow_tf: 'true'
       job_name: "Backend S3"
-      environment: ${{ inputs.environment }}
+      environment: ${{ jobs.env.outputs.environment }}
     secrets: inherit
 
   vpc:
@@ -66,11 +70,11 @@ jobs:
       nochange: ${{ needs.changes.outputs.vpc == 'false' }}
       allow_tf: ${{ needs.backend.outputs.nochange == 'true' }}
       job_name: "VPC"
-      environment: ${{ inputs.environment }}
+      environment: ${{ jobs.env.outputs.environment }}
     secrets: inherit
 
   kube:
-    needs: [changes, backend, vpc]
+    needs: [changes, vpc]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
@@ -78,11 +82,11 @@ jobs:
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
       allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
       job_name: "Kubernetes"
-      environment: ${{ inputs.environment }}
+      environment: $${{ jobs.env.outputs.environment }}
     secrets: inherit
 
   kube_addons:
-    needs: [changes, backend, vpc, kube]
+    needs: [changes, kube]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
@@ -90,5 +94,5 @@ jobs:
       nochange: ${{ needs.changes.outputs.kube_addons == 'false' }}
       allow_tf: ${{ needs.kube.outputs.nochange == 'true' }}
       job_name: "Install helm addons"
-      environment: ${{ inputs.environment }}
+      environment: ${{ jobs.env.outputs.environment }}
     secrets: inherit
