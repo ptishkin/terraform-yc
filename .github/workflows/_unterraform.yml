@@ -98,5 +98,7 @@ jobs:
         #  PLAN: "${{ steps.apply.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: ./.github/message.js
+          script: |
+            const script = require('./.github/message.js')
+            script({github, context})
         continue-on-error: true
