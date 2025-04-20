@@ -40,12 +40,13 @@ jobs:
             vpc: 'vpc/*'
             kube: 'kube/*'
             kube_addons: 'kube/addons/*'
+
   conditions:
     name: "conditions"
     runs-on: ubuntu-latest
     steps:
       - name: env
-        run: "echo 'environment' ${{ inputs.environment }} ${{ context.environment }}"
+        run: "echo 'environment' ${{ inputs.environment }} ${{ environment }} ${{ vars.environment }}"
   
   backend:
     needs: [changes]
