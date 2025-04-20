@@ -1,5 +1,5 @@
-output "service_loadbalancer_ip" {
+output "ingress_nginx_status" {
   value       = module.addons.ingress_nginx_status
-  description = "The LB IP of the kuber"
+  description = "status of ingress"
   sensitive   = true
 }
