@@ -11,9 +11,9 @@ on:
         type: choice
         required: true
         options:
-          - '[vpc, kube, kube_addons]'
-          - '[kube, kube_addons]'
           - kube_addons
+          - '[kube, kube_addons]'
+          - '[vpc, kube, kube_addons]'
           
 
 concurrency:
