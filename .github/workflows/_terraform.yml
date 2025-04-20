@@ -139,10 +139,10 @@ jobs:
             const plan = plan_file.length > 65000 ? plan_file.toString().substring(0, 65000) + " ..." : plan_file
             const truncated_message = plan_file.length > 65000 ? "Output is too long and was truncated. You can read full Plan in " + run_link + "<br /><br />" : ""
             
-            const issues = await github.rest.pulls.list({
+            const issues = await github.rest.pulls.list.endpoint.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'close',
+              state: 'closed',
               head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
             })
 
