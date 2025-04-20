@@ -85,6 +85,7 @@ jobs:
         run: |
           terraform destroy -auto-approve -no-color -input=false -out=apply.tmp
           terraform show -no-color apply.tmp > ${GITHUB_WORKSPACE}/apply.out
+        continue-on-error: true
       
       - name: Terraform Destroy skipped
         if: steps.plan.outcome != 'success'
