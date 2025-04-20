@@ -43,6 +43,17 @@ jobs:
       vpc: ${{ steps.changes.outputs.vpc }}
       kube: ${{ steps.changes.outputs.kube }}
       kube_addons: ${{ steps.changes.outputs.kube_addons }}
+      nochange: |-
+        ${{
+          (
+             steps.changes.outputs.backend == 'false'
+          && steps.changes.outputs.vpc == 'false'
+          && steps.changes.outputs.kube == 'false'
+          && steps.changes.outputs.kube_addons == 'false'
+          && 'true'
+          )
+        || 'false'
+        }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -56,6 +67,7 @@ jobs:
             kube_addons: 'kube/addons/*'
 
   backend:
+    if: ${{ needs.changes.outputs.nochange == 'false' }}
     needs: [changes, env]
     uses: ./.github/workflows/_terraform.yml
     with:
@@ -67,6 +79,7 @@ jobs:
     secrets: inherit
 
   vpc:
+    if: ${{ needs.changes.outputs.nochange == 'false' }}
     needs: [changes, env, backend]
     uses: ./.github/workflows/_terraform.yml
     with:
@@ -79,6 +92,7 @@ jobs:
     secrets: inherit
 
   kube:
+    if: ${{ needs.changes.outputs.nochange == 'false' }}
     needs: [changes, env, vpc]
     uses: ./.github/workflows/_terraform.yml
     with:
@@ -91,6 +105,7 @@ jobs:
     secrets: inherit
 
   kube_addons:
+    if: ${{ needs.changes.outputs.nochange == 'false' }}
     needs: [changes, env, kube]
     uses: ./.github/workflows/_terraform.yml
     with:
