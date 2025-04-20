@@ -68,6 +68,14 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: |
+          terraform plan -input=false -destory -no-color -out=plan.tmp
+          terraform show -no-color plan.tmp > ${GITHUB_WORKSPACE}/plan.out
+        continue-on-error: true
 
       - name: Terraform Destroy
         id: destroy
