@@ -1,0 +1,74 @@
+name: "UnTerraform"
+on:
+  workflow_call:
+    inputs:
+      main-branch:
+        description: 'main tree of git'
+        required: false
+        default: 'refs/heads/master'
+        type: string
+      job_name:
+        description: 'name of job'
+        required: false
+        default: 'Terraform'
+        type: string
+      environment:
+        description: 'reference centralized secrets'
+        required: false
+        default: 'staging'
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        description: 'access for aws like infra'
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        description: 'access for aws like infra'
+        required: true
+      AWS_ENDPOINT_URL_DYNAMODB:
+        description: 'access for aws like infra'
+        required: false
+      YC_TOKEN:
+        description: 'access for aws like infra'
+        required: false
+
+run-name: ${{ inputs.job_name }} by @${{ github.actor }}
+jobs:
+
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
+      YC_TOKEN: ${{ secrets.YC_TOKEN }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+          terraform_wrapper: true
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destory -auto-approve -no-color -input=false
