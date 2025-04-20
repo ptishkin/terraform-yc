@@ -2,9 +2,11 @@ name: "Terraform CI/CD"
 
 on:
   push:
+    environment: staging
     branches:
       - master
   pull_request:
+    environment: staging
     branches:
       - master
   workflow_dispatch:
@@ -40,8 +42,6 @@ jobs:
 
   backend:
     needs: [changes]
-    environment:
-      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
@@ -52,8 +52,6 @@ jobs:
 
   vpc:
     needs: [changes, backend]
-    environment:
-      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
@@ -65,8 +63,6 @@ jobs:
 
   kube:
     needs: [changes, backend, vpc]
-    environment:
-      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
@@ -78,8 +74,6 @@ jobs:
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
-    environment:
-      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
