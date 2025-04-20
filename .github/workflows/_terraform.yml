@@ -24,6 +24,11 @@ on:
         required: false
         default: 'Terraform'
         type: string
+      environment:
+        description: 'reference centralized secrets'
+        required: false
+        default: 'staging'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         description: 'access for aws like infra'
@@ -58,6 +63,7 @@ jobs:
     if: inputs.allow_tf == 'true'
     name: "Terraform"
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     outputs:
       applied: ${{ steps.apply.outcome == 'success' }}
       nochange: ${{ steps.nochange.outcome == 'success' }}
