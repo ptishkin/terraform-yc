@@ -81,7 +81,7 @@ jobs:
 
       - name: Terraform Destroy
         if: steps.plan.outcome == 'success'
-        id: destroy
+        id: apply
         run: |
           terraform destroy -auto-approve -no-color -input=false -out=apply.tmp
           terraform show -no-color apply.tmp > ${GITHUB_WORKSPACE}/apply.out
