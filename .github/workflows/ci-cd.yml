@@ -34,7 +34,7 @@ jobs:
   
   changes:
     needs: [env]
-    environment: ${{ jobs.env.outputs.environment }}
+    environment: ${{ needs.env.outputs.environment }}
     runs-on: ubuntu-latest
     outputs:
       backend: ${{ steps.changes.outputs.backend }}
@@ -54,18 +54,18 @@ jobs:
             kube_addons: 'kube/addons/*'
 
   backend:
-    needs: [changes]
+    needs: [changes, env]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
       nochange: ${{ needs.changes.outputs.backend == 'false' }}
       allow_tf: 'true'
       job_name: "Backend S3"
-      environment: ${{ jobs.env.outputs.environment }}
+      environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
 
   vpc:
-    needs: [changes, backend]
+    needs: [changes, env, backend]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
@@ -73,11 +73,11 @@ jobs:
       nochange: ${{ needs.changes.outputs.vpc == 'false' }}
       allow_tf: ${{ needs.backend.outputs.nochange == 'true' }}
       job_name: "VPC"
-      environment: ${{ jobs.env.outputs.environment }}
+      environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
 
   kube:
-    needs: [changes, vpc]
+    needs: [changes, env, vpc]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
@@ -85,11 +85,11 @@ jobs:
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
       allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
       job_name: "Kubernetes"
-      environment: $${{ jobs.env.outputs.environment }}
+      environment: $${{ needs.env.outputs.environment }}
     secrets: inherit
 
   kube_addons:
-    needs: [changes, kube]
+    needs: [changes, env, kube]
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
@@ -97,5 +97,5 @@ jobs:
       nochange: ${{ needs.changes.outputs.kube_addons == 'false' }}
       allow_tf: ${{ needs.kube.outputs.nochange == 'true' }}
       job_name: "Install helm addons"
-      environment: ${{ jobs.env.outputs.environment }}
+      environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
