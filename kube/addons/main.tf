@@ -138,9 +138,9 @@ resource "helm_release" "rancher" {
   ]
 
   name             = "rancher"
-  repository       = "https://releases.rancher.com/server-charts/stable"
+  repository       = "https://releases.rancher.com/server-charts/latest"
   chart            = "rancher"
-  version          = "v2.9.3"
+  version          = "v2.11.0"
   namespace        = "cattle-system"
   create_namespace = true
   wait             = true
