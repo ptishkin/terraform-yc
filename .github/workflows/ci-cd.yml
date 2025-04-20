@@ -87,7 +87,7 @@ jobs:
       nochange: ${{ needs.changes.outputs.kube == 'false' }}
       allow_tf: ${{ needs.vpc.outputs.nochange == 'true' }}
       job_name: "Kubernetes"
-      environment: $${{ needs.env.outputs.environment }}
+      environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
 
   kube_addons:
