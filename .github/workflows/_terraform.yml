@@ -147,7 +147,7 @@ jobs:
             })
             const issues = await github.paginate(opts)
 
-            const pr = context.issue.number || issues[issues.length-1].number
+            const pr = context.issue.number || issues[0].number
             
             const output = `## Terraform \`${{ inputs.job_name }}\`
             #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
