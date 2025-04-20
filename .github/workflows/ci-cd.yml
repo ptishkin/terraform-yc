@@ -18,9 +18,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-environment:
-  name: staging
-
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -43,6 +40,8 @@ jobs:
 
   backend:
     needs: [changes]
+    environment:
+      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: backend
@@ -53,6 +52,8 @@ jobs:
 
   vpc:
     needs: [changes, backend]
+    environment:
+      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: vpc
@@ -64,6 +65,8 @@ jobs:
 
   kube:
     needs: [changes, backend, vpc]
+    environment:
+      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube
@@ -75,6 +78,8 @@ jobs:
 
   kube_addons:
     needs: [changes, backend, vpc, kube]
+    environment:
+      name: staging
     uses: ./.github/workflows/_terraform.yml
     with:
       working-directory: kube/addons
