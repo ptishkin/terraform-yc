@@ -6,12 +6,6 @@ on:
     environment: staging
     branches:
       - master
-    inputs:
-      environment:
-        description: 'Environment to run tests against'
-        type: string
-        required: false
-        default: staging
 
   workflow_dispatch:
     inputs:
@@ -22,7 +16,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.environment }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   changes:
@@ -50,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: env
-        run: echo "'environment' ${{ inputs.environment }} ${{ vars.environment }}"
+        run: echo "'environment' ${{ inputs.environment }} ${{ vars.environment }} ${{ github.environment }}"
   
   backend:
     needs: [changes]
