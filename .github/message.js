@@ -16,7 +16,7 @@ module.exports = async({process, github, context, inputs, steps}) => {
 
   const pr = context.issue.number || issues[0].number
 
-  const output = `## Terraform \`${inputs.job_name}\`
+  const output = `## Terraform \``+inputs.job_name+`\`
   #### Format and Style 🖌\`${steps.fmt.outcome}\`
   #### Initialization ⚙️\`${steps.init.outcome}\`
   #### Validation 🤖\`${steps.validate.outcome}\`
