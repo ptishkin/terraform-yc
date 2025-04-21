@@ -99,6 +99,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const inputs = {"job_name":"${{ inputs.job_name }}","working-directory":"${{ inputs.working-directory }}"}
             const script = require('./.github/message.js')
-            script({process, github, context})
+            script({process, github, context, inputs})
         continue-on-error: true

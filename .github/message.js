@@ -1,4 +1,4 @@
-module.exports = async({process, github, context}) => {
+module.exports = async({process, github, context, inputs}) => {
   const run_url = process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
   const run_link = '<a href="' + run_url + '">Actions</a>.'
   const fs = require('fs')
@@ -16,7 +16,7 @@ module.exports = async({process, github, context}) => {
 
   const pr = context.issue.number || issues[0].number
 
-  const output = `## Terraform \`ss\`
+  const output = `## Terraform \`${inputs.job_name}\`
   #### Format and Style 🖌\`ss\`
   #### Initialization ⚙️\`ss\`
   #### Validation 🤖\`ss\`
@@ -36,7 +36,7 @@ module.exports = async({process, github, context}) => {
   ${truncated_message}
   Results for commit: ss
 
-  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`ss\`, Workflow: \`${github.workflow}\`*`;
+  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`${inputs['working-directory']}\`, Workflow: \`${github.workflow}\`*`;
     
   await github.rest.issues.createComment({
     issue_number: pr,
