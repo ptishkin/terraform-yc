@@ -88,7 +88,7 @@ jobs:
           terraform apply -destroy -auto-approve -no-color -input=false
         continue-on-error: true
       
-      - name: Terraform Destroy skipped
+      - name: Terraform Destroy stdout
         env:
           PLAN: "${{ steps.apply.outputs.stdout }}"
         run: echo -n "${PLAN}" >> ${GITHUB_WORKSPACE}/apply.out
