@@ -125,3 +125,7 @@ jobs:
             const script = require('./.github/message.js')
             script({process, github, context, inputs, githublost, steps})
         continue-on-error: true
+      
+      - name: Terraform Status
+        if: steps.plan.outcome == 'failure' || steps.apply.outcome == 'failure'
+        run: exit 1
