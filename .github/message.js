@@ -1,4 +1,4 @@
-module.exports = async({process, github, context, inputs}) => {
+module.exports = async({process, github, context, inputs, steps}) => {
   const run_url = process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
   const run_link = '<a href="' + run_url + '">Actions</a>.'
   const fs = require('fs')
@@ -16,7 +16,7 @@ module.exports = async({process, github, context, inputs}) => {
 
   const pr = context.issue.number || issues[0].number
 console.log(inputs);
-  const output = `## Terraform \`${{ inputs.job_name }}\`
+  const output = `## Terraform \`${{ inputs }}\`
   #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
   #### Initialization ⚙️\`${{ steps.init.outcome }}\`
   #### Validation 🤖\`${{ steps.validate.outcome }}\`
