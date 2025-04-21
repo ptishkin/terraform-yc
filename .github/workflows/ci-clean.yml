@@ -11,9 +11,9 @@ on:
         type: choice
         required: true
         options:
-          - '["kube_addons"]'
-          - '["kube", "kube_addons"]'
-          - '["vpc", "kube", "kube_addons"]'
+          - '["kube/addons"]'
+          - '["kube", "kube/addons"]'
+          - '["vpc", "kube", "kube/addons"]'
           
 
 concurrency:
@@ -38,7 +38,7 @@ jobs:
         run: echo "${{ fromJSON(inputs.jobs) }} | ${{ github.job }} | ${{ contains(fromJSON(inputs.jobs), github.job) }}"
 
   vpc:
-    if: ${{ contains(fromJSON(inputs.jobs), github.job) }}
+    if: ${{ contains(fromJSON(inputs.jobs), 'vpc') }}
     needs: [env, kube]
     uses: ./.github/workflows/_unterraform.yml
     with:
@@ -48,7 +48,7 @@ jobs:
     secrets: inherit
 
   kube:
-    if: ${{ contains(fromJSON(inputs.jobs), github.job) }}
+    if: ${{ contains(fromJSON(inputs.jobs), 'kube') }}
     needs: [env, kube_addons]
     uses: ./.github/workflows/_unterraform.yml
     with:
@@ -57,8 +57,8 @@ jobs:
       environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
 
-  kube_addons:
-    if: ${{ contains(fromJSON(inputs.jobs), 'kube_addons') }}
+  kube/addons:
+    if: ${{ contains(fromJSON(inputs.jobs), 'kube/addons') }}
     needs: [env]
     uses: ./.github/workflows/_unterraform.yml
     with:
