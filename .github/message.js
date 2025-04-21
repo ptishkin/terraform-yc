@@ -1,4 +1,4 @@
-module.exports = async({process, github, context, inputs, githublost}) => {
+module.exports = async({process, github, context, inputs, githublost, steps}) => {
   const run_url = process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
   const run_link = '<a href="' + run_url + '">Actions</a>.'
   const fs = require('fs')
@@ -17,12 +17,12 @@ module.exports = async({process, github, context, inputs, githublost}) => {
   const pr = context.issue.number || issues[0].number
 
   const output = `## Terraform \`${inputs.job_name}\`
-  #### Format and Style 🖌\`ss\`
-  #### Initialization ⚙️\`ss\`
-  #### Validation 🤖\`ss\`
-  #### Plan 📖\`ss\`
-  #### Plan Request Change 📖\`ss\`
-  #### Apply 📖\`ss\`
+  #### Format and Style 🖌\`${steps['fmt.outcome']}\`
+  #### Initialization ⚙️\`${steps['init.outcome']}\`
+  #### Validation 🤖\`${steps['validate.outcome']}\`
+  #### Plan 📖\`${steps['plan.outcome']}\`
+  #### Plan Request Change 📖\`${steps['plan_reqchange.outcome']}\`
+  #### Apply 📖\`${steps['apply.outcome']}\`
 
   <details><summary>Show Details</summary>
 

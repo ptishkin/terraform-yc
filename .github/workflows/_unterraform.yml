@@ -111,7 +111,16 @@ jobs:
               "event_name": "${{ github.event_name }}",
               "workflow": "${{ github.workflow }}"
             }
+            const steps =
+            {
+              "fmt.outcome": "${{ steps.fmt.outcome }}",
+              "init.outcome": "${{ steps.init.outcome }}"
+              "validate.outcome":"${{ steps.validate.outcome }}",
+              "plan.outcome": "${{ steps.plan.outcome }}",
+              "plan_reqchange.outcome": "${{ steps.plan_reqchange.outcome }}",
+              "apply.outcome": "${{ steps.apply.outcome }}",
+            }
             
             const script = require('./.github/message.js')
-            script({process, github, context, inputs, githublost})
+            script({process, github, context, inputs, githublost, steps})
         continue-on-error: true
