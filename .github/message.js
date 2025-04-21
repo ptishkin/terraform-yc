@@ -15,7 +15,7 @@ module.exports = async({process, github, context, inputs}) => {
   const issues = await github.paginate(opts)
 
   const pr = context.issue.number || issues[0].number
-
+console.log(inputs);
   const output = `## Terraform \`${{ inputs.job_name }}\`
   #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
   #### Initialization ⚙️\`${{ steps.init.outcome }}\`
