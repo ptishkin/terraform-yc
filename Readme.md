@@ -1,3 +1,37 @@
+## Example of CD/CD (and destroy pipelines) via terraform on yandex cloud
+
+./.github/workflow/
+dependencies of setup rancher on kubernetes
+ydb => backend => vpc => kube => kube/addons
+
+### key features
+- multi envirotment setup
+  - via secret keys in envirotment: stage, dev, production
+- on pull request: checking where change in steps and apply infra before it, and plan infra only for current change dir
+  - next conditionally build steps dirs will fail
+  - steps before current changed dir = steps from master then ci/cd must apply not created services
+  - on manual start: the same as PR
+- on push into master all steps will apply
+  - on manual start: the same as push
+- on PR or push with fail job
+  - deploy will stop apply next jobs
+- detailed comments about all steps (exported from terraform-setup and optimized for mine req)
+  - where step skipped or applied
+  - apply & destroy outs added after plan content
+  - cropped plan content to show end of results
+- all jobs write with reusable workflow / scripts
+- jobs for destroy
+  - only for manual start
+  - with selected envirotment and group of removed services (conditionally crossed via needs and checks)
+  (not aply remove vpc without previously remove kube)
+  - backend not remove from those pipeline (and will fail remove non empty s3 bucket)
+  - comments adding on last closed PR issue (github actions not support, but not im)
+- backend/ydb creats service account for s3 bucket and result of this step stored in aws secret creds)
+- backend manually switch from local backend into s3 backend after create s3 bucket
+
+<details>
+  <summary>Integrate plan</summary>
+
 Затащить ручной деплой кубера с rancher-ом в terraform
 И посмотреть в чём будет разница между azure
 
@@ -53,3 +87,5 @@ Profile 'terraform' created and activated
 #https://developer.hashicorp.com/terraform/cli/config/environment-variables
 #order of steps setup
 - `terraform plan -json | jq > plan.json`
+
+</details>
