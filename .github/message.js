@@ -1,4 +1,4 @@
-module.exports = async({process, github, context, inputs, steps}) => {
+module.exports = async({process, github, context, steps}) => {
   const run_url = process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
   const run_link = '<a href="' + run_url + '">Actions</a>.'
   const fs = require('fs')
