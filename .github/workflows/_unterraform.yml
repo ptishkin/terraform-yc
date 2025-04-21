@@ -71,7 +71,7 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-        
+
       - name: Terraform Plan
         id: plan
         run: |
@@ -87,13 +87,13 @@ jobs:
           echo -n "" > ${GITHUB_WORKSPACE}/apply.out
           terraform apply -destroy -auto-approve -no-color -input=false
         continue-on-error: true
-      
+
       - name: Terraform Destroy stdout
         env:
           PLAN: "${{ steps.apply.outputs.stdout }}"
         run: echo -n "${PLAN}" >> ${GITHUB_WORKSPACE}/apply.out
         continue-on-error: true
-        
+
       - uses: actions/github-script@v7
         id: state
         #Plan: 19 to add, 0 to change, 0 to destroy.
@@ -125,7 +125,7 @@ jobs:
             const script = require('./.github/message.js')
             script({process, github, context, inputs, githublost, steps})
         continue-on-error: true
-      
+
       - name: Terraform Status
         if: steps.plan.outcome == 'failure' || steps.apply.outcome == 'failure'
         run: exit 1
