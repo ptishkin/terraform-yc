@@ -12,8 +12,8 @@ on:
         required: true
         options:
           - '["kube/addons"]'
-          - '["kube", "kube/addons"]'
-          - '["vpc", "kube", "kube/addons"]'
+          - '["kube"]'
+          - '["vpc", "kube"]'
           
 
 concurrency:
@@ -49,7 +49,7 @@ jobs:
 
   kube:
     if: ${{ contains(fromJSON(inputs.jobs), 'kube') }}
-    needs: [env, kube_addons]
+    needs: [env]
     uses: ./.github/workflows/_unterraform.yml
     with:
       working-directory: kube
