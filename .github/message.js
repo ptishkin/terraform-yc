@@ -15,14 +15,14 @@ module.exports = async({process, github, context, inputs, steps}) => {
   const issues = await github.paginate(opts)
 
   const pr = context.issue.number || issues[0].number
-console.log(inputs);
-  const output = `## Terraform \`${{ inputs }}\`
-  #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-  #### Initialization ⚙️\`${{ steps.init.outcome }}\`
-  #### Validation 🤖\`${{ steps.validate.outcome }}\`
-  #### Plan 📖\`${{ steps.plan.outcome }}\`
-  #### Plan Request Change 📖\`${{ steps.plan_reqchange.outcome }}\`
-  #### Apply 📖\`${{ steps.apply.outcome }}\`
+
+  const output = `## Terraform \``+inputs.job_name+`\`
+  #### Format and Style 🖌\``+steps.fmt.outcome+`\`
+  #### Initialization ⚙️\``+steps.init.outcome+`\`
+  #### Validation 🤖\``+steps.validate.outcome+`\`
+  #### Plan 📖\``+steps.plan.outcome+`\`
+  #### Plan Request Change 📖\``+steps.plan_reqchange.outcome+`\`
+  #### Apply 📖\``+steps.apply.outcome+`\``
 
   <details><summary>Show Details</summary>
 
