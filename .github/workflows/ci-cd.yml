@@ -101,7 +101,7 @@ jobs:
       environment: ${{ needs.env.outputs.environment }}
     secrets: inherit
 
-  kube_addons:
+  kube/addons:
     needs: [changes, env, kube]
     uses: ./.github/workflows/_terraform.yml
     with:
