@@ -32,7 +32,7 @@ ydb => backend => vpc => kube => kube/addons
 
 ## TODO
 terraform needs
-- use less uniq names, example with prefixes (stage, dev) to apply conf on same folder
+- use less uniq names, example with prefixes (stage, dev) to apply conf on same YC folder
 - needs more complex flow with VPC
 - LB ip must glue with DNS
 - rancher boostrap password must be setted/getted into/from vault storage
