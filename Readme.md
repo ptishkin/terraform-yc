@@ -38,8 +38,6 @@ terraform needs
 - rancher boostrap password must be setted/getted into/from vault storage
   - rancher helm bug on destroy: stops first run of destroy pipeline
 - variables of versions
-  - 
-
 
 <details>
   <summary>Integrate plan</summary>
