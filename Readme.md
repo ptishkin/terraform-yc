@@ -28,7 +28,6 @@ ydb => backend => vpc => kube => kube/addons
   - comments adding on last closed PR issue (github actions not support, but not im)
 - backend/ydb creats service account for s3 bucket and result of this step stored in aws secret creds)
 - backend manually switch from local backend into s3 backend after create s3 bucket
-- all steps use YC_TOKEN created manually
 
 ## TODO
 terraform needs
@@ -38,6 +37,10 @@ terraform needs
 - rancher boostrap password must be setted/getted into/from vault storage
   - rancher helm bug on destroy: stops first run of destroy pipeline
 - variables of versions
+- all steps use AWS creds, but is not stored in vault (need more creative place of store generated creds than local outputs tfstate)
+
+CI/CD
+- all steps use YC_TOKEN created manually (and expire after 24h)
 
 <details>
   <summary>Integrate plan</summary>
