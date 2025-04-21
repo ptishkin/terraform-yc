@@ -36,7 +36,7 @@ module.exports = async({process, github, context, inputs, steps}) => {
   ${truncated_message}
   Results for commit: ${github.event.pull_request.head.sha}
 
-  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`${inputs.working-directory}\`, Workflow: \`${github.workflow}\`*`;
+  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`ss\`, Workflow: \`${github.workflow}\`*`;
     
   await github.rest.issues.createComment({
     issue_number: pr,
