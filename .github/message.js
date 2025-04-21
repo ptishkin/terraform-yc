@@ -34,7 +34,7 @@ module.exports = async({process, github, context}) => {
 
   </details>
   ${truncated_message}
-  Results for commit: ${github.event.pull_request.head.sha}
+  Results for commit: ss
 
   *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`ss\`, Workflow: \`${github.workflow}\`*`;
     
