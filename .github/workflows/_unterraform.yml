@@ -114,11 +114,11 @@ jobs:
             const steps =
             {
               "fmt.outcome": "${{ steps.fmt.outcome }}",
-              "init.outcome": "${{ steps.init.outcome }}"
-              "validate.outcome":"${{ steps.validate.outcome }}",
+              "init.outcome": "${{ steps.init.outcome }}",
+              "validate.outcome": "${{ steps.validate.outcome }}",
               "plan.outcome": "${{ steps.plan.outcome }}",
               "plan_reqchange.outcome": "${{ steps.plan_reqchange.outcome }}",
-              "apply.outcome": "${{ steps.apply.outcome }}",
+              "apply.outcome": "${{ steps.apply.outcome }}"
             }
             
             const script = require('./.github/message.js')
