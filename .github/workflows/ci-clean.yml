@@ -58,7 +58,7 @@ jobs:
     secrets: inherit
 
   kube_addons:
-    if: ${{ contains(fromJSON(inputs.jobs), github.job) }}
+    if: ${{ contains(fromJSON(inputs.jobs), 'kube_addons') }}
     needs: [env]
     uses: ./.github/workflows/_unterraform.yml
     with:
