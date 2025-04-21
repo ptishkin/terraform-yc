@@ -100,5 +100,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./.github/message.js')
-            script({process, github, context, steps})
+            script({process, github, context})
         continue-on-error: true
