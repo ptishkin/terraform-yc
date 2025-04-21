@@ -1,4 +1,4 @@
-module.exports = async({process, github, context, inputs}) => {
+module.exports = async({process, github, context, inputs, githublost}) => {
   const run_url = process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
   const run_link = '<a href="' + run_url + '">Actions</a>.'
   const fs = require('fs')
@@ -34,9 +34,9 @@ module.exports = async({process, github, context, inputs}) => {
 
   </details>
   ${truncated_message}
-  Results for commit: ss
+  Results for commit: ${githublost['github.event.pull_request.head.sha']}
 
-  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`${inputs['working-directory']}\`, Workflow: \`${github.workflow}\`*`;
+  *Pusher: @${githublost.actor||''}, Action: \`${githublost.event_name||''}\`, Working Directory: \`${inputs['working-directory']}\`, Workflow: \`${githublost.workflow||''}\`*`;
     
   await github.rest.issues.createComment({
     issue_number: pr,

@@ -99,7 +99,19 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const inputs = {"job_name":"${{ inputs.job_name }}","working-directory":"${{ inputs.working-directory }}"}
+            const inputs =
+            {
+              "job_name":"${{ inputs.job_name }}",
+              "working-directory":"${{ inputs.working-directory }}",
+            }
+            const githublost=
+            {
+              "github.event.pull_request.head.sha": "${{ github.event.pull_request.head.sha }}",
+              "actor": "${{ github.actor }}",
+              "github.event_name": "${{ github.event_name }}",
+              "github.workflow": "${{ github.workflow }}"
+            }
+            
             const script = require('./.github/message.js')
-            script({process, github, context, inputs})
+            script({process, github, context, inputs, githublost})
         continue-on-error: true
