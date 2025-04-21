@@ -34,9 +34,9 @@ module.exports = async({process, github, context, inputs, githublost}) => {
 
   </details>
   ${truncated_message}
-  Results for commit: ${githublost['github.event.pull_request.head.sha']}
+  Results for commit: ${githublost['event.pull_request.head.sha']}
 
-  *Pusher: @${githublost.actor||''}, Action: \`${githublost.event_name||''}\`, Working Directory: \`${inputs['working-directory']}\`, Workflow: \`${githublost.workflow||''}\`*`;
+  *Pusher: @${githublost.actor}, Action: \`${githublost.event_name}\`, Working Directory: \`${inputs['working-directory']}\`, Workflow: \`${githublost.workflow}\`*`;
     
   await github.rest.issues.createComment({
     issue_number: pr,

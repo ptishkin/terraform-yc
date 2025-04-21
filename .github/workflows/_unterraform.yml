@@ -106,10 +106,10 @@ jobs:
             }
             const githublost=
             {
-              "github.event.pull_request.head.sha": "${{ github.event.pull_request.head.sha }}",
+              "event.pull_request.head.sha": "${{ github.event.pull_request.head.sha }}",
               "actor": "${{ github.actor }}",
-              "github.event_name": "${{ github.event_name }}",
-              "github.workflow": "${{ github.workflow }}"
+              "event_name": "${{ github.event_name }}",
+              "workflow": "${{ github.workflow }}"
             }
             
             const script = require('./.github/message.js')
