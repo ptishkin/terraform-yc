@@ -16,13 +16,13 @@ module.exports = async({process, github, context, inputs, steps}) => {
 
   const pr = context.issue.number || issues[0].number
 
-  const output = `## Terraform \``+inputs.job_name+`\`
-  #### Format and Style 🖌\``+steps.fmt.outcome+`\`
-  #### Initialization ⚙️\``+steps.init.outcome+`\`
-  #### Validation 🤖\``+steps.validate.outcome+`\`
-  #### Plan 📖\``+steps.plan.outcome+`\`
-  #### Plan Request Change 📖\``+steps.plan_reqchange.outcome+`\`
-  #### Apply 📖\``+steps.apply.outcome+`\``
+  const output = `## Terraform \`${inputs.job_name}\`
+  #### Format and Style 🖌\`${steps.fmt.outcome}\`
+  #### Initialization ⚙️\`${steps.init.outcome}\`
+  #### Validation 🤖\`${steps.validate.outcome}\`
+  #### Plan 📖\`${steps.plan.outcome}\`
+  #### Plan Request Change 📖\`${steps.plan_reqchange.outcome}\`
+  #### Apply 📖\`${steps.apply.outcome}\`
 
   <details><summary>Show Details</summary>
 
@@ -34,9 +34,9 @@ module.exports = async({process, github, context, inputs, steps}) => {
 
   </details>
   ${truncated_message}
-  Results for commit: ${{ github.event.pull_request.head.sha }}
+  Results for commit: ${github.event.pull_request.head.sha}
 
-  *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ inputs.working-directory }}\`, Workflow: \`${{ github.workflow }}\`*`;
+  *Pusher: @${github.actor}, Action: \`${github.event_name}\`, Working Directory: \`${inputs.working-directory}\`, Workflow: \`${github.workflow}\`*`;
     
   await github.rest.issues.createComment({
     issue_number: pr,
