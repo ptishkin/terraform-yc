@@ -27,3 +27,9 @@ variable "folder_id" {
   description = "s3 storage forder"
   default     = "b1gsjjo950i2c5fs82pe"
 }
+
+variable "rancherBootstrapPassword" {
+  type        = string
+  description = "rancher bootstrap password"
+  default     = ""
+}
