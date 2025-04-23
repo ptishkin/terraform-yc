@@ -41,7 +41,7 @@ on:
       YC_TOKEN:
         description: 'tmp token SA for YandexCloud'
         required: true
-      TF_VAR_rancherBootstrapPassword:
+      TF_VAR_RANCHERBOOTSTRAPPASSWORD:
         description: 'rancher bootstrap password'
         required: true
     outputs:
@@ -74,7 +74,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
-      TF_VAR_rancherBootstrapPassword: ${{ secrets.TF_VAR_rancherBootstrapPassword }}
+      TF_VAR_rancherBootstrapPassword: ${{ secrets.TF_VAR_RANCHERBOOTSTRAPPASSWORD }}
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
