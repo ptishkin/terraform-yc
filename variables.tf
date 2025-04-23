@@ -31,7 +31,6 @@ variable "folder_id" {
 variable "kube_addons_rancher_bootstrap_password" {
   type        = string
   description = "rancher bootstrap password"
-  default     = "2"
 
   validation {
     condition     = can(regex("^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!#$%&? \"]).*$", var.kube_addons_rancher_bootstrap_password))
