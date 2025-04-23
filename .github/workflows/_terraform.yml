@@ -39,8 +39,11 @@ on:
         description: 'access for aws like infra'
         required: false
       YC_TOKEN:
-        description: 'access for aws like infra'
-        required: false
+        description: 'tmp token SA for YandexCloud'
+        required: true
+      TF_VAR_rancherBootstrapPassword:
+        description: 'rancher bootstrap password'
+        required: true
     outputs:
       nochange:
         description: "no changes plan or applied"
