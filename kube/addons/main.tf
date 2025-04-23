@@ -168,7 +168,7 @@ resource "helm_release" "rancher" {
 
   set {
     name  = "bootstrapPassword"
-    value = var.rancherBootstrapPassword
+    value = var.kube_addons_rancher_bootstrap_password
   }
 
   //set-string ingress.extraAnnotations.'nginx\.ingress\.kubernetes\.io/ssl-redirect'="false"
