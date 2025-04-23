@@ -92,6 +92,9 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
+        
+      - name: env-show
+        run: echo "TF_VAR_kube_addons_rancher_bootstrap_password: ${TF_VAR_kube_addons_rancher_bootstrap_password}"
 
       - name: Terraform Init
         id: init
