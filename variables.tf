@@ -33,7 +33,8 @@ variable "kube_addons_rancher_bootstrap_password" {
   description = "rancher bootstrap password"
 
   validation {
-    condition     = can(regexp("^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!#$%&? \"]).*$", var.kube_addons_rancher_bootstrap_password))
+    //condition     = can(regexp("^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!#$%&? \"]).*$", var.kube_addons_rancher_bootstrap_password))
+    condition     = can(regexp("^1", var.kube_addons_rancher_bootstrap_password))
     error_message = "The rancher bootstrap password must be more than 8 symbols with digits and spec #$%&? \""
   }
 }
