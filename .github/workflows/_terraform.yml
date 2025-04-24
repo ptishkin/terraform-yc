@@ -39,8 +39,11 @@ on:
         description: 'access for aws like infra'
         required: false
       YC_TOKEN:
-        description: 'access for aws like infra'
-        required: false
+        description: 'tmp token SA for YandexCloud'
+        required: true
+      TF_VAR_KUBE_ADDONS_RANCHER_BOOTSTRAP_PASSWORD:
+        description: 'rancher bootstrap password'
+        required: true
     outputs:
       nochange:
         description: "no changes plan or applied"
@@ -71,6 +74,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_DYNAMODB: ${{ secrets.AWS_ENDPOINT_URL_DYNAMODB }}
       YC_TOKEN: ${{ secrets.YC_TOKEN }}
+      TF_VAR_kube_addons_rancher_bootstrap_password: ${{ secrets.TF_VAR_KUBE_ADDONS_RANCHER_BOOTSTRAP_PASSWORD }}
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
