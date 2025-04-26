@@ -100,7 +100,7 @@ module "kube" {
       }
     },
 
-    "yc-k8s-ng-02" = {
+    /*"yc-k8s-ng-02" = {
       description = "Kubernetes nodes group 02"
       auto_scale = {
         min     = 0
@@ -114,6 +114,6 @@ module "kube" {
 
       max_expansion   = 1
       max_unavailable = 1
-    }
+    }*/
   }
 }
