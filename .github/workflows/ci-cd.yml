@@ -65,7 +65,7 @@ jobs:
         with:
           base: |-
             ${{
-               github.ref_name == github.base_ref && HEAD
+               github.ref_name == github.base_ref && github.event_name != 'push' && HEAD
             || ''
             }}
           filters: |
