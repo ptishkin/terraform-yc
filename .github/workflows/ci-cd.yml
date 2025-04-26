@@ -63,7 +63,11 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: changes
         with:
-          #base: HEAD
+          base: |-
+            ${{
+               github.ref_name == github.base_ref && HEAD
+            || ''
+            }}
           filters: |
             backend: 'backend/*'
             vpc: 'vpc/*'
