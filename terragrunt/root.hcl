@@ -24,15 +24,6 @@ remote_state {
 }
 
 locals {
-  yds_region       = "ru-central1-b"
-  state_bucket     = "yds-terraform-state-backend"
-  ydb_table        = "yds-terraform-state-locks"
-  ydb_database     = "ydb-serverless"
-  cloud_id         = "SOME_ID"
-  folder_id        = "b1gsjjo950i2c5fs82pe"
-  sa_key_file      = "${get_repo_root()}/key.json"
-  endpoint         = "api.yandexcloud.kz:443" # Region-Specific
-  storage_endpoint = "storage.yandexcloud.kz" # Region-Specific
 
   base_versions = read_terragrunt_config(find_in_parent_folders("versions.hcl"), { locals : {} })
   sub_versions  = read_terragrunt_config("versions.hcl", { locals : {} })
