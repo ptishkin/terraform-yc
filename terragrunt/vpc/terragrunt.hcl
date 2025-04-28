@@ -6,3 +6,7 @@ terraform {
 include {
   path = find_in_parent_folders("root.hcl")
 }
+
+dependency "backend" {
+  config_path = "../backend"
+}
